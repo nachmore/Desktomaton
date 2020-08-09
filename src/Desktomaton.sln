@@ -3,11 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Desktomaton", "Desktomaton\Desktomaton.csproj", "{B49FD10A-EAC8-4FA1-842E-39489877B29B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Desktomaton", "Desktomaton\Desktomaton.csproj", "{B49FD10A-EAC8-4FA1-842E-39489877B29B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Desktomaton.PluginBase", "Desktomaton.PluginBase\Desktomaton.PluginBase.csproj", "{9198D706-C633-47DB-B7BF-F2CCAD33F648}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Desktomaton.PluginBase", "Desktomaton.PluginBase\Desktomaton.PluginBase.csproj", "{9198D706-C633-47DB-B7BF-F2CCAD33F648}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Desktomaton.Plugins", "Desktomaton.PluginManager\Desktomaton.Plugins.csproj", "{5D82980D-9163-41E8-B5E0-DD5CDB6FFF7C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Desktomaton.PluginManagement", "Desktomation.PluginManagement\Desktomaton.PluginManagement.csproj", "{C3AA2DC7-CFEA-499E-83BA-ED9931812DFD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{619E386F-1568-4621-A013-B4B9B0012A9C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Desktomaton.Plugins.Slack", "Plugins\Desktomaton.Plugins.Slack\Desktomaton.Plugins.Slack.csproj", "{2B9F1718-C9F4-4461-8070-C0DB158F6937}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Desktomaton.Plugins.Outlook", "Plugins\Desktomaton.Plugins.Outlook\Desktomaton.Plugins.Outlook.csproj", "{5BB0C4F2-77CA-4B1F-A7E2-46A8E44F54B0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,13 +29,25 @@ Global
 		{9198D706-C633-47DB-B7BF-F2CCAD33F648}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9198D706-C633-47DB-B7BF-F2CCAD33F648}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9198D706-C633-47DB-B7BF-F2CCAD33F648}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5D82980D-9163-41E8-B5E0-DD5CDB6FFF7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5D82980D-9163-41E8-B5E0-DD5CDB6FFF7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5D82980D-9163-41E8-B5E0-DD5CDB6FFF7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5D82980D-9163-41E8-B5E0-DD5CDB6FFF7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3AA2DC7-CFEA-499E-83BA-ED9931812DFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3AA2DC7-CFEA-499E-83BA-ED9931812DFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3AA2DC7-CFEA-499E-83BA-ED9931812DFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3AA2DC7-CFEA-499E-83BA-ED9931812DFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B9F1718-C9F4-4461-8070-C0DB158F6937}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B9F1718-C9F4-4461-8070-C0DB158F6937}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B9F1718-C9F4-4461-8070-C0DB158F6937}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B9F1718-C9F4-4461-8070-C0DB158F6937}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5BB0C4F2-77CA-4B1F-A7E2-46A8E44F54B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BB0C4F2-77CA-4B1F-A7E2-46A8E44F54B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BB0C4F2-77CA-4B1F-A7E2-46A8E44F54B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BB0C4F2-77CA-4B1F-A7E2-46A8E44F54B0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2B9F1718-C9F4-4461-8070-C0DB158F6937} = {619E386F-1568-4621-A013-B4B9B0012A9C}
+		{5BB0C4F2-77CA-4B1F-A7E2-46A8E44F54B0} = {619E386F-1568-4621-A013-B4B9B0012A9C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E202A055-12F3-4374-82AC-16758D7414CF}

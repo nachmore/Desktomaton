@@ -1,5 +1,4 @@
-﻿using Desktomaton.Plugins;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,6 +23,9 @@ namespace Desktomaton
     public MainWindow()
     {
       InitializeComponent();
+
+      var pm = new PluginManagement.PluginManager();
+      pm.Load(null);
     }
   }
 }
