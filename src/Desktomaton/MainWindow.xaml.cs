@@ -24,8 +24,24 @@ namespace Desktomaton
     {
       InitializeComponent();
 
+      bool a = false;
+
       var pm = new PluginManagement.PluginManager();
       pm.Load(null);
+
+      var rg = new RulesManagement.RuleGroup();
+
+      var rule = new RulesManagement.Rule();
+      rule.Triggers.Add(pm.Triggers[0]);
+      rule.Actions.Add(pm.Actions[0]);
+
+      rg.Rules.Add(rule);
+
+      var re = new RulesManagement.RulesEngine();
+
+      re.Run(new List<RulesManagement.RuleGroup>() { rg });
+
+
     }
   }
 }

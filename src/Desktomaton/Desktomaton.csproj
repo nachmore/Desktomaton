@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Desktomaton.PluginManagement\Desktomaton.PluginManagement.csproj" />
+    <ProjectReference Include="..\Desktomaton.RulesManagement\Desktomaton.RulesManagement.csproj" />
   </ItemGroup>
 
 </Project>

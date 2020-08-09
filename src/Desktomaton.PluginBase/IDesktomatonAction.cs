@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 namespace Desktomaton.PluginBase
 {
-  public interface IDesktomatonAction : IDesktomatonPluginBase
-  {
-    
-  }
+    public interface IDesktomatonAction : IDesktomatonPluginBase
+    {
+        void Run();
+    }
 }
