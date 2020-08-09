@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Desktomaton.PluginManager\Desktomaton.Plugins.csproj" />
+    <ProjectReference Include="..\Desktomation.PluginManagement\Desktomaton.PluginManagement.csproj" />
   </ItemGroup>
 
 </Project>

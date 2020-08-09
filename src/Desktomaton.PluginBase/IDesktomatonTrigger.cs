@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Desktomaton.PluginBase
 {
-  public class IDesktomatonTrigger
+  public interface IDesktomatonTrigger : IDesktomatonPluginBase
   {
   }
 }
