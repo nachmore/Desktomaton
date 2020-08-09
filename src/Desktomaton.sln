@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29709.97
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Desktomaton", "Desktomaton\Desktomaton.csproj", "{B49FD10A-EAC8-4FA1-842E-39489877B29B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Desktomaton.PluginBase", "Desktomaton.PluginBase\Desktomaton.PluginBase.csproj", "{9198D706-C633-47DB-B7BF-F2CCAD33F648}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Desktomaton.Plugins", "Desktomaton.PluginManager\Desktomaton.Plugins.csproj", "{5D82980D-9163-41E8-B5E0-DD5CDB6FFF7C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B49FD10A-EAC8-4FA1-842E-39489877B29B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B49FD10A-EAC8-4FA1-842E-39489877B29B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B49FD10A-EAC8-4FA1-842E-39489877B29B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B49FD10A-EAC8-4FA1-842E-39489877B29B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9198D706-C633-47DB-B7BF-F2CCAD33F648}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9198D706-C633-47DB-B7BF-F2CCAD33F648}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9198D706-C633-47DB-B7BF-F2CCAD33F648}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9198D706-C633-47DB-B7BF-F2CCAD33F648}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D82980D-9163-41E8-B5E0-DD5CDB6FFF7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D82980D-9163-41E8-B5E0-DD5CDB6FFF7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D82980D-9163-41E8-B5E0-DD5CDB6FFF7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D82980D-9163-41E8-B5E0-DD5CDB6FFF7C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E202A055-12F3-4374-82AC-16758D7414CF}
+	EndGlobalSection
+EndGlobal
