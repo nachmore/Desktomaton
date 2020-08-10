@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Desktomaton.PluginBase;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -32,6 +33,13 @@ namespace Desktomaton
       var rg = new RulesManagement.RuleGroup();
 
       var rule = new RulesManagement.Rule();
+
+      var trigger = pm.Triggers[0];
+      var prop = pm.Triggers[0].Properties[0];
+      var stringProp = ((PluginProperty<string>)(pm.Triggers[0].Properties[0]));
+
+      stringProp.Value = "Interview";
+
       rule.Triggers.Add(pm.Triggers[0]);
       rule.Actions.Add(pm.Actions[0]);
 

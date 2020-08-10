@@ -10,7 +10,10 @@ namespace Desktomaton.PluginBase
     public List<IPluginProperty> Properties { get; }
   }
 
-  public interface IPluginProperty { }
+  public interface IPluginProperty
+  {
+    string Name { get; set; }
+  }
 
   public class PluginProperty<T> : IPluginProperty
   {
@@ -26,7 +29,7 @@ namespace Desktomaton.PluginBase
       }
       set
       {
-        if (Validator(value))
+        if (Validator == null || Validator(value))
         {
           _value = value;
         }

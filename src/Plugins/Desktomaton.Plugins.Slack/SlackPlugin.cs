@@ -14,7 +14,7 @@ namespace Desktomaton.Plugins.Slack
   public class SlackPlugin : IDesktomatonAction
   {
 
-    public List<IPluginProperty> Properties { get; } = new List<IPluginProperty>()
+    public List<IPluginProperty> Properties { get;  } = new List<IPluginProperty>()
     {
       new PluginProperty<string>("Slack Token"),
       new PluginProperty<SlackAction>("Action"),
