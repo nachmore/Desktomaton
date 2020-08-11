@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Desktomaton.RulesManagement
 {
@@ -41,17 +42,17 @@ namespace Desktomaton.RulesManagement
 
     public RuleTypes RuleType { get; set; }
 
-    public bool Evaluate()
+    public async Task<bool> EvaluateAsync()
     {
       var rv = false;
 
       foreach (var trigger in Triggers)
       {
-        rv = trigger.Evalute();
+        rv = await trigger.EvaluteAsync();
 
         if (this.RuleType == RuleTypes.OR && rv)
         {
-          RunActions();
+          await RunActions();
           return true;
         } 
         else if (RuleType == RuleTypes.AND && !rv) 
@@ -62,17 +63,17 @@ namespace Desktomaton.RulesManagement
 
       // RuleType == AND
       if (rv)
-        RunActions();
+        await RunActions();
 
       // we return the value because it's important for RuleGroup evaluation
       return rv;
     }
 
-    private void RunActions()
+    private async Task RunActions()
     {
       foreach (var action in Actions)
       {
-        action.RunAsync();
+        await action.RunAsync();
       }
     }
   }

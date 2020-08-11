@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Desktomaton.RulesManagement
 {
@@ -25,14 +26,14 @@ namespace Desktomaton.RulesManagement
       set { _rules = value; }
     }
 
-    public bool Evaluate()
+    public async Task<bool> EvaluateAsync()
     {
 
       foreach (var rule in Rules)
       {
 
         // stop as soon as one is successful
-        if (rule.Evaluate())
+        if (await rule.EvaluateAsync())
         {
           return true;
         }

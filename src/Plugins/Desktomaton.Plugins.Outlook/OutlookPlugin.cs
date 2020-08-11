@@ -3,6 +3,7 @@ using OutlookApp = Microsoft.Office.Interop.Outlook;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace Desktomaton.Plugins.Outlook
 {
@@ -29,7 +30,7 @@ namespace Desktomaton.Plugins.Outlook
       new PluginProperty<OutlookApp.OlBusyStatus?>("Busy Status")
     };
 
-    public bool Evalute()
+    public async Task<bool> EvaluteAsync()
     {
       Debug.WriteLine("OutlookPlugin: Evaluate()");
 

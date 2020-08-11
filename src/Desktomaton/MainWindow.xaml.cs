@@ -25,14 +25,11 @@ namespace Desktomaton
     {
       InitializeComponent();
 
-      bool a = false;
-
       var pm = new PluginManagement.PluginManager();
       pm.Load(null);
 
       var rg = new RulesManagement.RuleGroup();
       var rule = new RulesManagement.Rule();
-
 
       var outlookTrigger = pm.Triggers[0].CreateInstance();
       var slackAction = pm.Actions[0].CreateInstance();
@@ -46,7 +43,7 @@ namespace Desktomaton
       rg.Rules.Add(rule);
       var re = new RulesManagement.RulesEngine();
 
-      re.Run(new List<RulesManagement.RuleGroup>() { rg });
+      re.RunAsync(new List<RulesManagement.RuleGroup>() { rg });
 
 
     }
