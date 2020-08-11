@@ -1,10 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Desktomaton.PluginBase
 {
-    public interface IDesktomatonAction : IDesktomatonPluginBase
+  public interface IDesktomatonAction : IDesktomatonPluginBase
+  {
+    Task RunAsync();
+
+    public IDesktomatonAction CreateInstance()
     {
-        void Run();
+      return (IDesktomatonAction)Activator.CreateInstance(this.GetType());
     }
+  }
 }
