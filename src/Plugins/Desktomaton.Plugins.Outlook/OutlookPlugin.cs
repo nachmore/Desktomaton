@@ -35,7 +35,7 @@ namespace Desktomaton.Plugins.Outlook
 
       // get properties
       // TODO: need to make this easier
-      var propSubject = ((PluginProperty<string>)(Properties[(int)PropertyIndexes.Subject])).Value;
+      var propSubject = ((PluginProperty<string>)(Properties[(int)PropertyIndexes.Subject])).Value?.ToLower();
       var propBusyStatus = ((PluginProperty<OutlookApp.OlBusyStatus?>)(Properties[(int)PropertyIndexes.BusyStatus])).Value;
 
       // the number of properties set, i.e. the number that need to evaluate to true
@@ -53,7 +53,7 @@ namespace Desktomaton.Plugins.Outlook
         {
           var count = 0;
 
-          if (propSubject != null && appointment.Subject.Contains(propSubject))
+          if (propSubject != null && appointment.Subject.ToLower().Contains(propSubject))
             count++;
 
           if (propBusyStatus != null && appointment.BusyStatus == propBusyStatus)
