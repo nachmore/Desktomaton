@@ -31,20 +31,19 @@ namespace Desktomaton
       pm.Load(null);
 
       var rg = new RulesManagement.RuleGroup();
-
       var rule = new RulesManagement.Rule();
 
-      var trigger = pm.Triggers[0];
-      var prop = pm.Triggers[0].Properties[0];
-      var stringProp = ((PluginProperty<string>)(pm.Triggers[0].Properties[0]));
 
-      stringProp.Value = "Interview";
+      var outlookTrigger = pm.Triggers[0].CreateInstance();
+      var slackAction = pm.Actions[0].CreateInstance();
 
-      rule.Triggers.Add(pm.Triggers[0]);
-      rule.Actions.Add(pm.Actions[0]);
+      outlookTrigger.SetValue("Subject", "i");
+      slackAction.SetValue("Slack Token", SLACK_TOKEN);
+
+      rule.Triggers.Add(outlookTrigger);
+      rule.Actions.Add(slackAction);
 
       rg.Rules.Add(rule);
-
       var re = new RulesManagement.RulesEngine();
 
       re.Run(new List<RulesManagement.RuleGroup>() { rg });

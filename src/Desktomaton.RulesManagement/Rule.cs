@@ -72,7 +72,7 @@ namespace Desktomaton.RulesManagement
     {
       foreach (var action in Actions)
       {
-        action.Run();
+        action.RunAsync();
       }
     }
   }

@@ -4,6 +4,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Desktomaton", "Desktomaton\Desktomaton.csproj", "{B49FD10A-EAC8-4FA1-842E-39489877B29B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9198D706-C633-47DB-B7BF-F2CCAD33F648} = {9198D706-C633-47DB-B7BF-F2CCAD33F648}
+		{2B9F1718-C9F4-4461-8070-C0DB158F6937} = {2B9F1718-C9F4-4461-8070-C0DB158F6937}
+		{5BB0C4F2-77CA-4B1F-A7E2-46A8E44F54B0} = {5BB0C4F2-77CA-4B1F-A7E2-46A8E44F54B0}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Desktomaton.PluginBase", "Desktomaton.PluginBase\Desktomaton.PluginBase.csproj", "{9198D706-C633-47DB-B7BF-F2CCAD33F648}"
 EndProject
@@ -11,7 +16,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{619E
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Desktomaton.Plugins.Slack", "Plugins\Desktomaton.Plugins.Slack\Desktomaton.Plugins.Slack.csproj", "{2B9F1718-C9F4-4461-8070-C0DB158F6937}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Desktomaton.Plugins.Outlook", "Plugins\Desktomaton.Plugins.Outlook\Desktomaton.Plugins.Outlook.csproj", "{5BB0C4F2-77CA-4B1F-A7E2-46A8E44F54B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Desktomaton.Plugins.Outlook", "Plugins\Desktomaton.Plugins.Outlook\Desktomaton.Plugins.Outlook.csproj", "{5BB0C4F2-77CA-4B1F-A7E2-46A8E44F54B0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Desktomaton.PluginManagement", "Desktomaton.PluginManagement\Desktomaton.PluginManagement.csproj", "{AC498FFD-9965-4FAE-B303-BC2828BD5017}"
 EndProject
