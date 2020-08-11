@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace Desktomaton.PluginBase
 {
   public interface IDesktomatonTrigger : IDesktomatonPluginBase
   {
-    bool Evalute();
+    Task<bool> EvaluteAsync();
 
     public IDesktomatonTrigger CreateInstance()
     {

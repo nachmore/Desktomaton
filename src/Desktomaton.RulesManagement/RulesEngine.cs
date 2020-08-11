@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Desktomaton.RulesManagement
 {
@@ -10,14 +11,13 @@ namespace Desktomaton.RulesManagement
     /// </summary>
     /// <param name="ruleGroups"></param>
     /// <returns></returns>
-    public int Run(List<RuleGroup> ruleGroups)
+    public async Task<int> RunAsync(List<RuleGroup> ruleGroups)
     {
-
       var rv = 0;
 
       foreach (var group in ruleGroups)
       {
-        if (group.Evaluate())
+        if (await group.EvaluateAsync())
           rv++;
       }
 
