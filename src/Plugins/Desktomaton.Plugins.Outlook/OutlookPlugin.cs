@@ -10,7 +10,6 @@ namespace Desktomaton.Plugins.Outlook
 
   public class OutlookPlugin : IDesktomatonTrigger
   {
-
     public OutlookPlugin()
     {
       Debug.WriteLine("OutlookPlugin() created");
@@ -22,12 +21,14 @@ namespace Desktomaton.Plugins.Outlook
     {
       Subject = 0,
       BusyStatus,
+      Category
     }
 
     public List<IPluginProperty> Properties { get; }  = new List<IPluginProperty>()
     {
       new PluginProperty<string>("Subject"),
-      new PluginProperty<OutlookApp.OlBusyStatus?>("Busy Status")
+      new PluginProperty<OutlookApp.OlBusyStatus?>("Busy Status"),
+      new PluginProperty<string>("Category"),
     };
 
     public async Task<bool> EvaluteAsync()
@@ -38,10 +39,14 @@ namespace Desktomaton.Plugins.Outlook
       // TODO: need to make this easier
       var propSubject = ((PluginProperty<string>)(Properties[(int)PropertyIndexes.Subject])).Value?.ToLower();
       var propBusyStatus = ((PluginProperty<OutlookApp.OlBusyStatus?>)(Properties[(int)PropertyIndexes.BusyStatus])).Value;
+      var propCategory = ((PluginProperty<string>)(Properties[(int)PropertyIndexes.Category])).Value?.ToLower();
 
       // the number of properties set, i.e. the number that need to evaluate to true
       // for Evaluate() to return true
-      var propertySetCount = (propSubject != null ? 1 : 0) + (propBusyStatus != null ? 1 : 0);
+      var propertySetCount = (propSubject != null ? 1 : 0) + (propBusyStatus != null ? 1 : 0) + (propCategory != null ? 1 : 0);
+
+      if (propertySetCount == 0)
+        throw new ArgumentException("You must set Trigger properties before evaluating the Trigger...");
 
       var calendars = GetCalendars();
 
@@ -58,6 +63,9 @@ namespace Desktomaton.Plugins.Outlook
             count++;
 
           if (propBusyStatus != null && appointment.BusyStatus == propBusyStatus)
+            count++;
+
+          if (propCategory != null && appointment.Categories != null && appointment.Categories.ToLower().Contains(propCategory))
             count++;
 
           if (count == propertySetCount)
