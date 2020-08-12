@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 namespace Desktomaton.Plugins.Outlook
 {
 
-  public class OutlookPlugin : IDesktomatonTrigger
+  [Serializable]
+  public class OutlookPlugin : DesktomatonTrigger
   {
     /// <summary>
     /// Amount of time to cache appointment data for, allowing for consequtive triggers
@@ -23,7 +24,7 @@ namespace Desktomaton.Plugins.Outlook
       Debug.WriteLine("OutlookPlugin() created");
     }
 
-    public string Name => "Outlook";
+    public override string Name => "📅 Outlook";
 
     private enum PropertyIndexes
     {
@@ -32,14 +33,14 @@ namespace Desktomaton.Plugins.Outlook
       Category
     }
 
-    public List<IPluginProperty> Properties { get; } = new List<IPluginProperty>()
+    public override List<IPluginProperty> Properties { get; } = new List<IPluginProperty>()
     {
       new PluginProperty<string>("Subject"),
       new PluginProperty<OutlookApp.OlBusyStatus?>("Busy Status"),
       new PluginProperty<string>("Category"),
     };
 
-    public async Task<bool> EvaluteAsync()
+    public override async Task<bool> EvaluateAsync()
     {
       Debug.WriteLine("OutlookPlugin: Evaluate()");
 

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace Desktomaton.RulesManagement
 {
+  [Serializable]
   public class RuleGroup
   {
 
@@ -33,6 +34,7 @@ namespace Desktomaton.RulesManagement
       {
 
         // stop as soon as one is successful
+        // TODO: AND / OR for group (not just rule), though perhaps that's just another group?
         if (await rule.EvaluateAsync())
         {
           return true;

@@ -6,17 +6,18 @@ using System.Threading.Tasks;
 
 namespace Desktomaton.RulesManagement
 {
+  [Serializable]
   public class Rule
   {
 
-    private List<IDesktomatonTrigger> _triggers;
-    public List<IDesktomatonTrigger> Triggers
+    private List<DesktomatonTrigger> _triggers;
+    public List<DesktomatonTrigger> Triggers
     {
       get
       {
         if (_triggers == null)
         {
-          _triggers = new List<IDesktomatonTrigger>();
+          _triggers = new List<DesktomatonTrigger>();
         }
 
         return _triggers;
@@ -24,14 +25,14 @@ namespace Desktomaton.RulesManagement
       set { _triggers = value; }
     }
 
-    private List<IDesktomatonAction> _actions;
-    public List<IDesktomatonAction> Actions
+    private List<DesktomatonAction> _actions;
+    public List<DesktomatonAction> Actions
     {
       get
       {
         if (_actions == null)
         {
-          _actions = new List<IDesktomatonAction>();
+          _actions = new List<DesktomatonAction>();
         }
 
         return _actions;
@@ -39,8 +40,10 @@ namespace Desktomaton.RulesManagement
       set { _actions = value; }
     }
 
-
-    public RuleTypes RuleType { get; set; }
+    /// <summary>
+    /// Default type is AND (i.e. all triggers must match)
+    /// </summary>
+    public RuleTypes RuleType { get; set; } = RuleTypes.AND;
 
     public async Task<bool> EvaluateAsync()
     {
@@ -56,7 +59,7 @@ namespace Desktomaton.RulesManagement
 
       foreach (var trigger in Triggers)
       {
-        rv = await trigger.EvaluteAsync();
+        rv = await trigger.EvaluateAsync();
 
         if (this.RuleType == RuleTypes.OR && rv)
         {

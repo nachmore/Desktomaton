@@ -15,11 +15,14 @@ namespace Desktomaton.Plugins.Slack
     Available
   }
 
-  public class SlackPlugin : IDesktomatonAction
+  [Serializable]
+  public class SlackPlugin : DesktomatonAction
   {
     private const uint DEFAULT_EXPIRATION = 5;
 
-    public List<IPluginProperty> Properties { get; } = new List<IPluginProperty>()
+    public override string Name => "Slack";
+
+    public override List<IPluginProperty> Properties { get; } = new List<IPluginProperty>()
     {
       new PluginProperty<string>("Slack Token"),
       new PluginProperty<SlackAction>("Action"),
@@ -27,9 +30,7 @@ namespace Desktomaton.Plugins.Slack
       new PluginProperty<uint>("Expiration")
     };
 
-    public string Name => "Slack";
-
-    public async Task RunAsync()
+    public override async Task RunAsync()
     {
 
       var token = Properties[0].GetValue() as string;

@@ -5,10 +5,22 @@ using System.Text;
 
 namespace Desktomaton.PluginBase
 {
-  public interface IDesktomatonPluginBase
+  [Serializable]
+  public abstract class DesktomatonPluginBase
   {
-    public string Name { get; }
-    public List<IPluginProperty> Properties { get; }
+    public abstract string Name { get; }
+
+    public abstract List<IPluginProperty> Properties { get; }
+
+    public int GetSetPropertyCount()
+    {
+      var count = 0;
+
+      foreach (var property in Properties)
+        count += (property.IsSet ? 1 : 0);
+
+      return count;
+    }
 
     /// <summary>
     /// Utilty function, generally useful when coding directly against a plugin
@@ -57,13 +69,23 @@ namespace Desktomaton.PluginBase
   {
     string Name { get; set; }
 
+    public bool IsSet { get; }
+
     void SetValue(object value);
     object GetValue();
   }
 
+  [Serializable]
   public class PluginProperty<T> : IPluginProperty
   {
     public string Name { get; set; }
+
+    private bool _isSet = false;
+    public bool IsSet { get
+      {
+        return _isSet || _value != null;
+      }
+    }
 
     private T _value;
 
@@ -78,6 +100,7 @@ namespace Desktomaton.PluginBase
         if (Validator == null || Validator(value))
         {
           _value = value;
+          _isSet = true;
         }
       }
     }
@@ -118,14 +141,23 @@ namespace Desktomaton.PluginBase
       }
       else
       {
-        // just try a plain cast
-        Value = (T)value;
+
+        // First try to Convert, this catches things like int -> uint which doesn't
+        // work with plain cast of (T)
+        try
+        {
+          Value = (T)Convert.ChangeType(value, typeof(T));
+        } 
+        catch (InvalidCastException)
+        {
+          // nope that failed (for example, from int to enum), try a standard cast
+          Value = (T)value;
+        }
       }
     }
 
     public object GetValue()
     {
-      // explicitly go to the property in case there is handler code we want from there
       return Value;
     }
   }
