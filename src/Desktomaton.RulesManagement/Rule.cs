@@ -46,6 +46,14 @@ namespace Desktomaton.RulesManagement
     {
       var rv = false;
 
+      // fall through rule - i.e. this rule will always execute its actions because it
+      // has no triggers
+      if (Triggers.Count == 0)
+      {
+        rv = true;
+        await RunActions();
+      }
+
       foreach (var trigger in Triggers)
       {
         rv = await trigger.EvaluteAsync();
