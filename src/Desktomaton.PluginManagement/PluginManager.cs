@@ -11,13 +11,13 @@ namespace Desktomaton.PluginManagement
   public class PluginManager
   {
 
-    public List<IDesktomatonTrigger> Triggers { get; private set; }
-    public List<IDesktomatonAction> Actions { get; private set; }
+    public List<DesktomatonTrigger> Triggers { get; private set; }
+    public List<DesktomatonAction> Actions { get; private set; }
 
     public void Load(string[] paths)
     {
-      var actions = new List<IDesktomatonAction>();
-      var triggers = new List<IDesktomatonTrigger>();
+      var actions = new List<DesktomatonAction>();
+      var triggers = new List<DesktomatonTrigger>();
 
       // Navigate up to the solution root
       string pluginDir = Path.GetDirectoryName(typeof(PluginManager).Assembly.Location);
@@ -31,8 +31,8 @@ namespace Desktomaton.PluginManagement
 
         var assembly = loadContext.LoadFromAssemblyName(new AssemblyName(Path.GetFileNameWithoutExtension(file)));
 
-        triggers.AddRange(LoadType<IDesktomatonTrigger>(assembly));
-        actions.AddRange(LoadType<IDesktomatonAction>(assembly));
+        triggers.AddRange(LoadType<DesktomatonTrigger>(assembly));
+        actions.AddRange(LoadType<DesktomatonAction>(assembly));
       }
 
       Triggers = triggers;
