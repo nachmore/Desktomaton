@@ -10,11 +10,19 @@ namespace Desktomaton.Plugins.Outlook
 
   public class OutlookPlugin : IDesktomatonTrigger
   {
+    /// <summary>
+    /// Amount of time to cache appointment data for, allowing for consequtive triggers
+    /// </summary>
+    private const int CACHE_TIMEOUT_MIN = 2;
+
+    private static List<OutlookApp.AppointmentItem> _appointmentCache;
+    private static DateTime _appointmentCacheUpdateTime;
+
     public OutlookPlugin()
     {
       Debug.WriteLine("OutlookPlugin() created");
     }
-    
+
     public string Name => "Outlook";
 
     private enum PropertyIndexes
@@ -24,7 +32,7 @@ namespace Desktomaton.Plugins.Outlook
       Category
     }
 
-    public List<IPluginProperty> Properties { get; }  = new List<IPluginProperty>()
+    public List<IPluginProperty> Properties { get; } = new List<IPluginProperty>()
     {
       new PluginProperty<string>("Subject"),
       new PluginProperty<OutlookApp.OlBusyStatus?>("Busy Status"),
@@ -48,32 +56,45 @@ namespace Desktomaton.Plugins.Outlook
       if (propertySetCount == 0)
         throw new ArgumentException("You must set Trigger properties before evaluating the Trigger...");
 
-      var calendars = GetCalendars();
+      var appointments = GetAppointments();
 
-      // get current appointments
-      foreach (var calendar in calendars)
+      foreach (var appointment in appointments)
       {
-        var curAppointments = GetCurrentAppointments(calendar);
+        var count = 0;
 
-        foreach (var appointment in curAppointments)
-        {
-          var count = 0;
+        if (propSubject != null && appointment.Subject.ToLower().Contains(propSubject))
+          count++;
 
-          if (propSubject != null && appointment.Subject.ToLower().Contains(propSubject))
-            count++;
+        if (propBusyStatus != null && appointment.BusyStatus == propBusyStatus)
+          count++;
 
-          if (propBusyStatus != null && appointment.BusyStatus == propBusyStatus)
-            count++;
+        if (propCategory != null && appointment.Categories != null && appointment.Categories.ToLower().Contains(propCategory))
+          count++;
 
-          if (propCategory != null && appointment.Categories != null && appointment.Categories.ToLower().Contains(propCategory))
-            count++;
-
-          if (count == propertySetCount)
-            return true;
-        }
+        if (count == propertySetCount)
+          return true;
       }
 
       return false;
+    }
+
+    private List<OutlookApp.AppointmentItem> GetAppointments()
+    {
+      if (DateTime.Now.Subtract(_appointmentCacheUpdateTime).TotalMinutes < CACHE_TIMEOUT_MIN)
+        return _appointmentCache;
+
+      var appointments = new List<OutlookApp.AppointmentItem>();
+      var calendars = GetCalendars();
+
+      foreach (var calendar in calendars)
+      {
+        appointments.AddRange(GetCurrentAppointments(calendar));
+      }
+
+      _appointmentCache = appointments;
+      _appointmentCacheUpdateTime = DateTime.Now;
+
+      return appointments;
     }
 
     public static List<OutlookApp.Folder> GetCalendars()
