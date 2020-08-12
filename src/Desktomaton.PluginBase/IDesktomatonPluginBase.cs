@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace Desktomaton.PluginBase
@@ -14,7 +15,7 @@ namespace Desktomaton.PluginBase
     /// </summary>
     /// <param name="name"></param>
     /// <param name="value"></param>
-    public void SetValue(string name, object value)
+    public void SetProperty(string name, object value)
     {
 
       foreach (var property in Properties)
@@ -34,7 +35,7 @@ namespace Desktomaton.PluginBase
     /// </summary>
     /// <param name="name"></param>
     /// <param name="value"></param>
-    public object GetValue(string name)
+    public object GetProperty(string name)
     {
       foreach (var property in Properties)
       {
@@ -100,9 +101,26 @@ namespace Desktomaton.PluginBase
     /// <param name="value"></param>
     public void SetValue(object value)
     {
-      // no need for fancy handling - if the cast fails an exception will be thrown
-      // and bubbled up
-      Value = (T)value;
+
+      if (value == null)
+      {
+        Value = default(T);
+        return;
+      }
+
+      // if the value is a nullable enum then we need to cast to the enum, not to the
+      // nullable type
+      var underlyingType = Nullable.GetUnderlyingType(typeof(T));
+
+      if (underlyingType != null)
+      {
+        Value = (T)Enum.ToObject(underlyingType, value);
+      }
+      else
+      {
+        // just try a plain cast
+        Value = (T)value;
+      }
     }
 
     public object GetValue()
