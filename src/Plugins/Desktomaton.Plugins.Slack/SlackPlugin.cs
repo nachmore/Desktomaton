@@ -22,39 +22,38 @@ namespace Desktomaton.Plugins.Slack
 
     public override string Name => "Slack";
 
-    public override List<IPluginProperty> Properties { get; } = new List<IPluginProperty>()
-    {
-      new PluginProperty<string>("Slack Token"),
-      new PluginProperty<SlackAction>("Action"),
-      new PluginProperty<string>("Action Parameter"),
-      new PluginProperty<uint>("Expiration")
-    };
+    [DesktomatonProperty(PrettyTitle = "Slack Token")]
+    public string SlackToken { get; set; }
+
+    [DesktomatonProperty]
+    public SlackAction? Action { get; set; }
+
+    [DesktomatonProperty(PrettyTitle = "Action Parameter")]
+    public string ActionParameter { get; set; }
+
+    [DesktomatonProperty]
+    public uint? Expiration { get; set; }
 
     public override async Task RunAsync()
     {
 
-      var token = Properties[0].GetValue() as string;
-      var action = Properties[1].GetValue() as SlackAction?;
-      var param = Properties[2].GetValue() as string;
-      var expiration = Properties[3].GetValue() as uint?;
+      if (Expiration == null)
+        Expiration = DEFAULT_EXPIRATION;
 
-      if (expiration == null)
-        expiration = DEFAULT_EXPIRATION;
+      var slackClient = new SlackTaskClient(SlackToken);
 
-      var slackClient = new SlackTaskClient(token);
-
-      switch(action)
+      switch(Action)
       {
         case null:
           throw new ArgumentNullException("Action property was not set!");
         case SlackAction.DND:
-          await SetDnd(slackClient, expiration);
+          await SetDnd(slackClient, Expiration);
           break;
         case SlackAction.Status:
-          await SetStatus(slackClient, param, expiration);
+          await SetStatus(slackClient, ActionParameter, Expiration);
           break;
         default:
-          throw new NotImplementedException($"Unimplemented action {action}");
+          throw new NotImplementedException($"Unimplemented action {Action}");
       }
 
       Debug.WriteLine("SlackPlugin: Run()");

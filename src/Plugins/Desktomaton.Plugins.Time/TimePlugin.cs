@@ -10,14 +10,20 @@ namespace Desktomaton.Plugins.Time
   {
     public override string Name => "⌚ Time";
 
-    public override List<IPluginProperty> Properties { get; } = new List<IPluginProperty>()
-    {
-      new PluginProperty<uint>("Start Hour"),
-      new PluginProperty<uint>("Start Minute"),
-      new PluginProperty<uint>("End Hour"),
-      new PluginProperty<uint>("End Minute"),
-      new PluginProperty<List<DayOfWeek>>("Days of Week")
-    };
+    [DesktomatonProperty(PrettyTitle = "Start Hour")]
+    public uint? StartHour { get; set; }
+
+    [DesktomatonProperty(PrettyTitle = "Start Minute")]
+    public uint? StartMinute { get; set; }
+
+    [DesktomatonProperty(PrettyTitle = "End Hour")]
+    public uint? EndHour { get; set; }
+
+    [DesktomatonProperty(PrettyTitle = "End Minute")]
+    public uint? EndMinute { get; set; }
+
+    [DesktomatonProperty(PrettyTitle = "Days of Week")]
+    public List<DayOfWeek> DaysOfWeek { get; set; }
 
     public override async Task<bool> EvaluateAsync()
     {
@@ -28,31 +34,21 @@ namespace Desktomaton.Plugins.Time
       if (propertySetCount == 0)
         throw new ArgumentException("You must set Trigger properties before evaluating the Trigger...");
 
-      var startHourProperty = Properties[0];
-      var startMinuteProperty = Properties[1];
-      var endHourProperty = Properties[2];
-      var endMinuteProperty = Properties[2];
-      var daysOfWeekProperty = Properties[4];
-
-      if ((startHourProperty.IsSet && !endHourProperty.IsSet) ||
-          (endHourProperty.IsSet && !startHourProperty.IsSet))
+      if ((StartHour != null && EndHour == null) ||
+          (EndHour != null && StartHour == null))
         throw new ArgumentException("Either both or none of Start and End Hour must be set");
 
       var now = DateTime.Now;
-      var daysOfWeek = daysOfWeekProperty.GetValue() as List<DayOfWeek>;
 
       // we're doing time based trigger
-      if (startHourProperty.IsSet)
+      if (StartHour != null)
       {
-        // safe to direct cast since these are either set or we'll get the default (0)
-        // double cast because can't cast directly to int due to T being uint (it's uint
-        // for UX enforcement to avoid negatives)
-        var startHour = (int)(uint)startHourProperty.GetValue();
-        var startMinute = (int)(uint)startMinuteProperty.GetValue();
-        var endHour = (int)(uint)endHourProperty.GetValue();
-        var endMinute = (int)(uint)endMinuteProperty.GetValue();
+        var startHour = (int)StartHour.GetValueOrDefault();
+        var startMinute = (int)StartMinute.GetValueOrDefault();
+        var endHour = (int)EndHour.GetValueOrDefault();
+        var endMinute = (int)EndMinute.GetValueOrDefault();
 
-        if (!daysOfWeek?.Contains(now.DayOfWeek) == false)
+        if (!DaysOfWeek?.Contains(now.DayOfWeek) == false)
           return false;
 
         var start = new DateTime(now.Year, now.Month, now.Day, startHour, startMinute, 0);
@@ -71,7 +67,7 @@ namespace Desktomaton.Plugins.Time
       } 
       else
       {
-        if (daysOfWeek?.Contains(now.DayOfWeek) == true)
+        if (DaysOfWeek?.Contains(now.DayOfWeek) == true)
           return true;
       }
 
