@@ -33,35 +33,29 @@ namespace Desktomaton.Plugins.Outlook
       Category
     }
 
-    public override List<IPluginProperty> Properties { get; } = new List<IPluginProperty>()
-    {
-      new PluginProperty<List<string>>("Subject"),
-      new PluginProperty<OutlookApp.OlBusyStatus?>("Busy Status"),
-      new PluginProperty<string>("Category"),
-    };
+    [DesktomatonProperty]
+    public List<string> Subject { get; set; } = new List<string>();
+
+    [DesktomatonProperty(PrettyTitle="Busy Status")]
+    public OutlookApp.OlBusyStatus? BusyStatus { get; set; }
+
+    [DesktomatonProperty]
+    public string Category { get; set; }
+
+    public bool Test { get; set; }
 
     public override async Task<bool> EvaluateAsync()
     {
       Debug.WriteLine("OutlookPlugin: Evaluate()");
-
-      // get properties
-      // TODO: need to make this easier
-      var propSubject = ((PluginProperty<List<string>>)(Properties[(int)PropertyIndexes.Subject])).Value;
-      var propBusyStatus = ((PluginProperty<OutlookApp.OlBusyStatus?>)(Properties[(int)PropertyIndexes.BusyStatus])).Value;
-      var propCategory = ((PluginProperty<string>)(Properties[(int)PropertyIndexes.Category])).Value?.ToLower();
 
       // the number of properties set, i.e. the number that need to evaluate to true
       // for Evaluate() to return true
       var propertySetCount = GetSetPropertyCount();
 
       // ensure that propSubject is initialized and lowercase
-      if (propSubject == null)
+      if (Subject != null)
       {
-        propSubject = new List<string>();
-      } 
-      else
-      {
-        propSubject = propSubject.ConvertAll(i => i.ToLower());
+        Subject = Subject.ConvertAll(i => i.ToLower());
       }
 
       if (propertySetCount == 0)
@@ -73,7 +67,7 @@ namespace Desktomaton.Plugins.Outlook
       {
         var count = 0;
 
-        foreach (var subject in propSubject)
+        foreach (var subject in Subject)
         {
           if (appointment.Subject.ToLower().Contains(subject))
           {
@@ -81,10 +75,10 @@ namespace Desktomaton.Plugins.Outlook
           }
         }
 
-        if (propBusyStatus != null && appointment.BusyStatus == propBusyStatus)
+        if (BusyStatus != null && appointment.BusyStatus == BusyStatus)
           count++;
 
-        if (propCategory != null && appointment.Categories != null && appointment.Categories.ToLower().Contains(propCategory))
+        if (Category != null && appointment.Categories != null && appointment.Categories.ToLower().Contains(Category))
           count++;
 
         if (count == propertySetCount)
