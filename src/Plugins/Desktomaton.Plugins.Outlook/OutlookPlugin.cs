@@ -118,6 +118,10 @@ namespace Desktomaton.Plugins.Outlook
       {
         try
         {
+          // ignore public folders (causes slow Exchange calls, and we don't have a use case
+          // for interactions with those)
+          if (store.ExchangeStoreType == OutlookApp.OlExchangeStoreType.olExchangePublicFolder)
+            continue;
 
           var folder = (OutlookApp.Folder)store.GetDefaultFolder(OutlookApp.OlDefaultFolders.olFolderCalendar);
           System.Diagnostics.Debug.WriteLine(folder.Name);
@@ -127,7 +131,7 @@ namespace Desktomaton.Plugins.Outlook
         catch (Exception e)
         {
           // Not every root folder has a calendar (for example, Public folders), so this exception can be ignored
-          Debug.WriteLine("Failed to get Calendar:\n" + e);
+          Debug.WriteLine($"Failed to get Calendar for {store.DisplayName} type: {store.ExchangeStoreType}:\n{e}");
         }
       }
 
