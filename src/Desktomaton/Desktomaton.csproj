@@ -7,8 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Prism.Unity" Version="8.0.0.1740-pre" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Desktomaton.PluginManagement\Desktomaton.PluginManagement.csproj" />
     <ProjectReference Include="..\Desktomaton.RulesManagement\Desktomaton.RulesManagement.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ViewModels\" />
+    <Folder Include="Views\" />
   </ItemGroup>
 
 </Project>
