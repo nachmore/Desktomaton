@@ -34,7 +34,7 @@ namespace Desktomaton.Plugins.Outlook
     }
 
     [DesktomatonProperty]
-    public List<string> Subject { get; set; } = new List<string>();
+    public List<string> Subject { get; set; }
 
     [DesktomatonProperty(PrettyTitle="Busy Status")]
     public OutlookApp.OlBusyStatus? BusyStatus { get; set; }
@@ -67,18 +67,21 @@ namespace Desktomaton.Plugins.Outlook
       {
         var count = 0;
 
-        foreach (var subject in Subject)
+        if (Subject != null)
         {
-          if (appointment.Subject.ToLower().Contains(subject))
+          foreach (var subject in Subject)
           {
-            count++;
+            if (appointment.Subject.ToLower().Contains(subject))
+            {
+              count++;
+            }
           }
         }
 
         if (BusyStatus != null && appointment.BusyStatus == BusyStatus)
           count++;
 
-        if (Category != null && appointment.Categories != null && appointment.Categories.ToLower().Contains(Category))
+        if (Category != null && appointment.Categories != null && appointment.Categories.Contains(Category))
           count++;
 
         if (count == propertySetCount)
@@ -130,7 +133,7 @@ namespace Desktomaton.Plugins.Outlook
         }
         catch (Exception e)
         {
-          // Not every root folder has a calendar (for example, Public folders), so this exception can be ignored
+          // Not every root folder has a calendar, so this exception can be ignored
           Debug.WriteLine($"Failed to get Calendar for {store.DisplayName} type: {store.ExchangeStoreType}:\n{e}");
         }
       }
