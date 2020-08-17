@@ -72,7 +72,7 @@ namespace Desktomaton.Plugins.Slack
         text = param.Substring(emoji_index + 1);
       }
 
-      var test =
+      var profile_parameters =
         new
         {
           status_text = text,
@@ -80,9 +80,15 @@ namespace Desktomaton.Plugins.Slack
           status_expiration = (expiration > 0 ? DateTimeOffset.Now.ToUnixTimeSeconds() + (60 * expiration) : 0)
         };
 
-      var profile = new Tuple<string, string>("profile", JsonConvert.SerializeObject(test));
+      var profile = new Tuple<string, string>("profile", JsonConvert.SerializeObject(profile_parameters));
 
       var response = await slackClient.APIRequestWithTokenAsync<ProfileSetResponse>(profile);
+
+      if (!response.ok)
+      {
+        Debug.WriteLine($"** Slack Request Failed: {response.error}\n\tProfile is: {profile_parameters}");
+      }
+
     }
 
     private async Task SetDnd(SlackTaskClient slackClient, uint? expiration)
