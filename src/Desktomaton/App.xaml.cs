@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Desktomaton.Views;
+using Prism.Ioc;
+using Prism.Unity;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -11,7 +14,18 @@ namespace Desktomaton
   /// <summary>
   /// Interaction logic for App.xaml
   /// </summary>
-  public partial class App : Application
+  public partial class App : PrismApplication
   {
+    protected override Window CreateShell()
+    {
+      var mainWindow = Container.Resolve<MainWindow>();
+
+      return mainWindow;
+    }
+
+    protected override void RegisterTypes(IContainerRegistry containerRegistry)
+    {
+      
+    }
   }
 }
