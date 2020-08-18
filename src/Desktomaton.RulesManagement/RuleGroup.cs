@@ -10,6 +10,7 @@ namespace Desktomaton.RulesManagement
   {
 
     public string Name { get; set; }
+    public bool Enabled { get; set; } = true;
 
     private List<Rule> _rules;
     public List<Rule> Rules
@@ -29,17 +30,18 @@ namespace Desktomaton.RulesManagement
 
     public async Task<bool> EvaluateAsync()
     {
-
-      foreach (var rule in Rules)
+      if (Enabled)
       {
-
-        // stop as soon as one is successful
-        // TODO: AND / OR for group (not just rule), though perhaps that's just another group?
-        if (await rule.EvaluateAsync())
+        foreach (var rule in Rules)
         {
-          return true;
-        }
+          // stop as soon as one is successful
+          // TODO: AND / OR for group (not just rule), though perhaps that's just another group?
+          if (await rule.EvaluateAsync())
+          {
+            return true;
+          }
 
+        }
       }
 
       return false;
