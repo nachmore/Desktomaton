@@ -119,6 +119,10 @@ namespace Desktomaton.Plugins.Outlook
 
       foreach (OutlookApp.Store store in stores)
       {
+        // amazingly this is possible...
+        if (store == null)
+          continue;
+
         try
         {
           // ignore public folders (causes slow Exchange calls, and we don't have a use case
