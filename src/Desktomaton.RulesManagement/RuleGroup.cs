@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -34,6 +35,18 @@ namespace Desktomaton.RulesManagement
       {
         foreach (var rule in Rules)
         {
+
+          if (rule.Actions.Count == 0 && rule.Triggers.Count == 0)
+          {
+            if (Debugger.IsAttached)
+            {
+              throw new InvalidOperationException("DEBUG Only: Rule has no actions and no triggers");
+            }
+
+            // ignore this rule
+            continue;
+          }
+
           // stop as soon as one is successful
           // TODO: AND / OR for group (not just rule), though perhaps that's just another group?
           if (await rule.EvaluateAsync())
