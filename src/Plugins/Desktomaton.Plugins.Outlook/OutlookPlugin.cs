@@ -36,7 +36,7 @@ namespace Desktomaton.Plugins.Outlook
     [DesktomatonProperty]
     public List<string> Subject { get; set; }
 
-    [DesktomatonProperty(PrettyTitle="Busy Status")]
+    [DesktomatonProperty(PrettyTitle = "Busy Status")]
     public OutlookApp.OlBusyStatus? BusyStatus { get; set; }
 
     [DesktomatonProperty]
@@ -117,14 +117,25 @@ namespace Desktomaton.Plugins.Outlook
 
       var folders = new List<OutlookApp.Folder>();
 
-      foreach (OutlookApp.Store store in stores)
-      {
-        // amazingly this is possible...
-        if (store == null)
-          continue;
+      Debug.WriteLine($"***Store Count {stores.Count}");
 
+      // foreach on COM objects can sometimes get into weird states when encountering
+      // a corrupt pst,  where null objects repeat themselves, and a foreach goes into
+      // an infinite loop, so prefer traditional for
+      for (int i = 0; i < stores.Count; i++)
+      {
+        OutlookApp.Store store = null;
+        
         try
         {
+          // this is in the try since sometimes COM will freak out and throw
+          // IndexOutOfRangeException even though we're < Count (corrupt pst situation)
+          store = stores[i];
+
+          // amazingly this is possible...
+          if (store == null)
+            continue;
+
           // ignore public folders (causes slow Exchange calls, and we don't have a use case
           // for interactions with those)
           if (store.ExchangeStoreType == OutlookApp.OlExchangeStoreType.olExchangePublicFolder)
@@ -138,7 +149,7 @@ namespace Desktomaton.Plugins.Outlook
         catch (Exception e)
         {
           // Not every root folder has a calendar, so this exception can be ignored
-          Debug.WriteLine($"Failed to get Calendar for {store.DisplayName} type: {store.ExchangeStoreType}:\n{e}");
+          Debug.WriteLine($"Failed to get Calendar for {store?.DisplayName} type: {store?.ExchangeStoreType}:\n{e}");
         }
       }
 
