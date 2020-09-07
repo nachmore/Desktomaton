@@ -112,29 +112,45 @@ namespace Desktomaton.Plugins.Outlook
 
     public static List<OutlookApp.Folder> GetCalendars()
     {
-      var outlook = new OutlookApp.Application();
-      var stores = outlook.Session.Stores;
-
       var folders = new List<OutlookApp.Folder>();
 
-      Debug.WriteLine($"***Store Count {stores.Count}");
+      OutlookApp.Application outlook;
+      OutlookApp.Stores stores = null;
+
+      try
+      {
+        outlook = new OutlookApp.Application();
+        stores = outlook.Session.Stores;
+      }
+      catch (Exception e)
+      {
+        Debug.WriteLine($"Exception initializing Outlook in GetCalendars.\n{e}");
+
+        // this can generally be ignored (it's often a COM RETRYLATER when Outlook is stuck
+        // booting up etc). Regardless, there is no remediation, so let's bail.
+        //
+        // Note: Yes, this is a double return, yes the for loop will just exit and it will return
+        //       anyway, but who knows what will get added post the for at some point in the future
+        //       and what chaose that will cause. This exception is exceedingly rare so would rather
+        //       fail fast.
+        return folders;
+      }
 
       // foreach on COM objects can sometimes get into weird states when encountering
       // a corrupt pst,  where null objects repeat themselves, and a foreach goes into
       // an infinite loop, so prefer traditional for
-      for (int i = 0; i < stores.Count; i++)
+      //
+      // Note: These are one-based arrays
+      //       See: https://docs.microsoft.com/en-us/dotnet/api/microsoft.office.interop.outlook._stores.item?view=outlook-pia#Microsoft_Office_Interop_Outlook__Stores_Item_System_Object_
+      for (int i = 1; i <= stores?.Count; i++)
       {
         OutlookApp.Store store = null;
-        
+
         try
         {
           // this is in the try since sometimes COM will freak out and throw
           // IndexOutOfRangeException even though we're < Count (corrupt pst situation)
           store = stores[i];
-
-          // amazingly this is possible...
-          if (store == null)
-            continue;
 
           // ignore public folders (causes slow Exchange calls, and we don't have a use case
           // for interactions with those)
@@ -142,21 +158,18 @@ namespace Desktomaton.Plugins.Outlook
             continue;
 
           var folder = (OutlookApp.Folder)store.GetDefaultFolder(OutlookApp.OlDefaultFolders.olFolderCalendar);
-          System.Diagnostics.Debug.WriteLine(folder.Name);
+          System.Diagnostics.Debug.WriteLine($"Found calendar: {folder.Name} in store {store.DisplayName}");
 
           folders.Add(folder);
         }
         catch (Exception e)
         {
-          // Not every root folder has a calendar, so this exception can be ignored
+          // Not every root folder has a calendar (for example, Public folders), so this exception can be ignored
           Debug.WriteLine($"Failed to get Calendar for {store?.DisplayName} type: {store?.ExchangeStoreType}:\n{e}");
         }
       }
 
-      if (folders.Count > 0)
-        return folders;
-
-      throw new InvalidOperationException("Couldn't find a Calendar in the current Outlook installation");
+      return folders;
     }
 
     public static List<OutlookApp.AppointmentItem> GetCurrentAppointments(OutlookApp.Folder calendar)
