@@ -1,6 +1,7 @@
 ﻿using Desktomaton.PluginBase;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -75,7 +76,7 @@ namespace Desktomaton.RulesManagement
       // RuleType == AND
       if (rv)
         await RunActions();
-
+      
       // we return the value because it's important for RuleGroup evaluation
       return rv;
     }
@@ -84,7 +85,17 @@ namespace Desktomaton.RulesManagement
     {
       foreach (var action in Actions)
       {
-        await action.RunAsync();
+        try
+        {
+          await action.RunAsync();
+        }
+        catch (Exception e)
+        {
+          Debug.WriteLine($"{e.GetType().Name} thrown running {action.Name}:\n{e}");
+
+          if (Debugger.IsAttached)
+            Debugger.Break();
+        }
       }
     }
   }
