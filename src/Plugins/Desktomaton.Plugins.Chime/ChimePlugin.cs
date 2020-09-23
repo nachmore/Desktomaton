@@ -40,7 +40,7 @@ namespace Desktomaton.Plugins.Chime
           "WISPTIS",
           "GDI+ Window",
           "EVRVideoHandler",
-          "Meeting Ended",
+          "Meeting ended",
     };
 
     public override string Name => "☎ Chime from Amazon";
