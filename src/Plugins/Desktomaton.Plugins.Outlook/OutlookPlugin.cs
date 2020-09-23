@@ -42,6 +42,9 @@ namespace Desktomaton.Plugins.Outlook
     [DesktomatonProperty]
     public string Category { get; set; }
 
+    [DesktomatonProperty(CountsTowardsTrigger = false)]
+    public string NotCategory { get; set; }
+
     public bool Test { get; set; }
 
     public override async Task<bool> EvaluateAsync()
@@ -83,6 +86,9 @@ namespace Desktomaton.Plugins.Outlook
 
         if (Category != null && appointment.Categories != null && appointment.Categories.Contains(Category))
           count++;
+
+        if (NotCategory != null && appointment.Categories != null && appointment.Categories.Contains(NotCategory))
+          count--;
 
         if (count == propertySetCount)
           return true;

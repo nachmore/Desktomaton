@@ -27,12 +27,13 @@ namespace Desktomaton.PluginBase
     }
 
     /// <summary>
-    /// Returns the count of properties that are not null
+    /// Returns the count of properties that are not null and are not marked as being
+    /// ignored for the purpose of the property count
     /// </summary>
     /// <returns></returns>
     public int GetSetPropertyCount()
     {
-      return Properties.Where(p => p.GetValue(this) != null).Count();
+      return Properties.Where(p => p.GetValue(this) != null && p.GetCustomAttribute<DesktomatonPropertyAttribute>()?.CountsTowardsTrigger == true).Count();
     }
 
     /// <summary>

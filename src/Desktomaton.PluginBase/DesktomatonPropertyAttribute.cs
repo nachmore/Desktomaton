@@ -25,6 +25,11 @@ namespace Desktomaton.PluginBase
       set { _prettyTitle = value; }
     }
 
+    /// <summary>
+    /// Whether or not this property needs to be true for the trigger to be considered successful
+    /// </summary>
+    public bool CountsTowardsTrigger { get; set; } = true;
+
     public DesktomatonPropertyAttribute([CallerMemberName] string callerName = null)
     {
       _callerName = callerName;
