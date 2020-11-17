@@ -11,6 +11,34 @@
         mc:Ignorable="d"
         Background="Transparent">
   <Grid>
-    <TextBlock Text="{Binding HelloThere}"></TextBlock>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="250"/>
+      <ColumnDefinition Width="*"/>
+    </Grid.ColumnDefinitions>
+
+    <StackPanel Grid.Column="0">
+
+      <ui:CommandBar>
+        <ui:CommandBar.Content>
+          <TextBlock Margin="10,5,0,0" Style="{StaticResource SubtitleTextBlockStyle}">
+            Rule Groups
+          </TextBlock>
+        </ui:CommandBar.Content>
+        <ui:AppBarToggleButton Icon="Add" Command="{Binding CommandCreateRuleGroup}"></ui:AppBarToggleButton>
+      </ui:CommandBar>
+
+      <ListBox SelectionMode="Single" Height="400" ItemsSource="{Binding RuleGroups}">
+        <ListBox.ItemTemplate>
+          <DataTemplate>
+            <StackPanel Orientation="Horizontal">
+              <CheckBox IsChecked="{Binding Enabled}"></CheckBox>
+              <TextBlock Text="{Binding Name}"></TextBlock>
+              <Separator/>
+            </StackPanel>
+          </DataTemplate>
+        </ListBox.ItemTemplate>
+      </ListBox>
+    </StackPanel>
+
   </Grid>
 </ui:Page>

@@ -26,7 +26,7 @@ namespace Desktomaton.Views
   /// </summary>
   public partial class MainWindow : Window
   {
-    private RulesManagement.RuleGroup _ruleGroup = new RulesManagement.RuleGroup();
+    private List<RulesManagement.RuleGroup> _ruleGroups = new List<RulesManagement.RuleGroup>();
 
     public MainWindow()
     {
@@ -34,6 +34,8 @@ namespace Desktomaton.Views
 
       NavView.SelectedItem = NavView.MenuItems.OfType<NavigationViewItem>().First();
       Navigate(NavView.SelectedItem);
+
+      Run();
     }
 
     private void NavView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
