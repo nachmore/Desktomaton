@@ -7,7 +7,7 @@
         xmlns:ui="http://schemas.modernwpf.com/2019"
         ui:WindowHelper.UseModernWindowStyle="True"        
         mc:Ignorable="d"  
-        Title="Desktomaton" Height="450" Width="800">
+        Title="Desktomaton" Height="473" Width="800" ResizeMode="CanMinimize">
   <Grid>
     <ui:NavigationView
       x:Name="NavView"
