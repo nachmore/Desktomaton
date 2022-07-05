@@ -21,7 +21,6 @@ namespace Desktomaton.PluginManagement
       _resolver = new AssemblyDependencyResolver(pluginPath);
     }
 
-
     protected override Assembly Load(AssemblyName assemblyName)
     {
       string assemblyPath = _resolver.ResolveAssemblyToPath(assemblyName);

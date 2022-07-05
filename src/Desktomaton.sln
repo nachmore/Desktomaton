@@ -29,7 +29,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Desktomaton.Plugins.Time", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Desktomaton.Plugins.Chime", "Plugins\Desktomaton.Plugins.Chime\Desktomaton.Plugins.Chime.csproj", "{157E73EE-F9FA-44E2-B997-D5E3DDA72065}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Desktomaton.Plugins.Notification", "Plugins\Desktomaton.Plugins.Notification\Desktomaton.Plugins.Notification.csproj", "{534ED7CA-35A6-41E5-95C2-26952C4F5BA5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Desktomaton.Plugins.Notification", "Plugins\Desktomaton.Plugins.Notification\Desktomaton.Plugins.Notification.csproj", "{534ED7CA-35A6-41E5-95C2-26952C4F5BA5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

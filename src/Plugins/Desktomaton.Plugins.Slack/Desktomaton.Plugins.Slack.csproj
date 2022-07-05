@@ -1,8 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0-windows</TargetFramework>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <UseWPF>true</UseWPF>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -11,8 +12,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="SlackAPI" Version="1.1.7">
-    </PackageReference>
+    <PackageReference Include="CookiesTxtParser" Version="1.0.1" />
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.1210.30" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,5 +23,15 @@
       <ExcludeAssets>runtime</ExcludeAssets>
     </ProjectReference>
   </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="SlackAPI">
+      <HintPath>..\..\..\..\SlackAPI\SlackAPI\bin\Debug\net60\SlackAPI.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <PropertyGroup>
+    <WebView2LoaderPreference>Static</WebView2LoaderPreference>
+  </PropertyGroup>
 
 </Project>

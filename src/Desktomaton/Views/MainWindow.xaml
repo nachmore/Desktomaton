@@ -4,37 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Desktomaton.Views"
-        xmlns:ui="http://schemas.modernwpf.com/2019"
-        ui:WindowHelper.UseModernWindowStyle="True"        
         mc:Ignorable="d"  
         Title="Desktomaton" Height="473" Width="800" ResizeMode="CanMinimize">
   <Grid>
-    <ui:NavigationView
-      x:Name="NavView"
-      IsBackButtonVisible="Collapsed"
-      ItemInvoked="NavView_ItemInvoked">
-
-      <ui:NavigationView.MenuItems>
-
-        <!-- glyph list: https://docs.microsoft.com/en-us/windows/uwp/design/style/segoe-ui-symbol-font -->
-        
-        <ui:NavigationViewItem Content="Rules" Tag="{x:Type local:RulesPage}">
-          <ui:NavigationViewItem.Icon>
-            <ui:FontIcon Glyph="&#xE99A;" />
-          </ui:NavigationViewItem.Icon>
-        </ui:NavigationViewItem>
-
-        <ui:NavigationViewItem Content="Run Log" Tag="{x:Type local:ExecutionLogsPage}">
-          <ui:NavigationViewItem.Icon>
-            <ui:FontIcon Glyph="&#xE7C4;" />
-          </ui:NavigationViewItem.Icon>
-        </ui:NavigationViewItem>
-        
-      </ui:NavigationView.MenuItems>
-
-      <ui:Frame x:Name="ContentFrame" />
-
-    </ui:NavigationView>
 
   </Grid>
 </Window>

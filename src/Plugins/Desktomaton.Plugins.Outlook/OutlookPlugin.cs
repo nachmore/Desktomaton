@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using System.Runtime.InteropServices;
 
 namespace Desktomaton.Plugins.Outlook
 {
@@ -105,9 +106,16 @@ namespace Desktomaton.Plugins.Outlook
       var appointments = new List<OutlookApp.AppointmentItem>();
       var calendars = GetCalendars();
 
-      foreach (var calendar in calendars)
+      for (var i = 0; i < calendars.Count; i++)
       {
-        appointments.AddRange(GetCurrentAppointments(calendar));
+        try
+        {
+          appointments.AddRange(GetCurrentAppointments(calendars[i]));
+        } 
+        catch (COMException e)
+        {
+          Debug.WriteLine($"Caught COMException reading Outlook calendars (sadly, expected): {e}");
+        }
       }
 
       _appointmentCache = appointments;

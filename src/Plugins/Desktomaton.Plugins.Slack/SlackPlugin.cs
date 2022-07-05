@@ -4,10 +4,21 @@ using SlackAPI;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
+using System.Net;
+using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Desktomaton.Plugins.Slack
 {
+  public enum SlackAuthTypes
+  {
+    OAuth,
+    Browser
+  }
+
   public enum SlackAction
   {
     Status,
@@ -22,6 +33,9 @@ namespace Desktomaton.Plugins.Slack
 
     public override string Name => "Slack";
 
+    [DesktomatonProperty(PrettyTitle="Slack Authentication Type")]
+    public SlackAuthTypes AuthType { get; set; }
+
     [DesktomatonProperty(PrettyTitle = "Slack Token")]
     public string SlackToken { get; set; }
 
@@ -34,15 +48,23 @@ namespace Desktomaton.Plugins.Slack
     [DesktomatonProperty]
     public uint? Expiration { get; set; }
 
+    // for now we're cheating. What should happen is that auth should be a configurable type within PluginManagement
+    // and you should be able to set a default for all plugins of a certain type, or a specific one per plugin instance
+    private static SlackAuth _auth = new SlackBrowserAuth();
+
     public override async Task RunAsync()
     {
 
       if (Expiration == null)
         Expiration = DEFAULT_EXPIRATION;
 
-      var slackClient = new SlackTaskClient(SlackToken);
+      _auth.Retrieve();
 
-      switch(Action)
+      SlackToken = _auth.Token;
+
+      var slackClient = new SlackTaskClient(SlackToken, _auth.Cookies);
+      
+      switch (Action)
       {
         case null:
           throw new ArgumentNullException("Action property was not set!");
@@ -81,7 +103,7 @@ namespace Desktomaton.Plugins.Slack
         };
 
       var profile = new Tuple<string, string>("profile", JsonConvert.SerializeObject(profile_parameters));
-
+      
       var response = await slackClient.APIRequestWithTokenAsync<ProfileSetResponse>(profile);
 
       if (!response.ok)
@@ -91,27 +113,22 @@ namespace Desktomaton.Plugins.Slack
 
     }
 
+    //TODO: Do we need a way to end Dnd? Either with expiration 0 or via dnd.endSnooze
     private async Task SetDnd(SlackTaskClient slackClient, uint? expiration)
     {
       // unlike status, expiration == 0 means expire now, so override this with a small default
-      if (expiration == 0)
+      if (expiration.GetValueOrDefault() == 0)
         expiration = DEFAULT_EXPIRATION;
 
       var param = new Tuple<string, string>("num_minutes", expiration.ToString());
 
       var response = await slackClient.APIRequestWithTokenAsync<DndSetSnoozeResponse>(param);
+
+      if (!response.ok)
+      {
+        Debug.WriteLine($"** Slack Request Failed: {response.error}\n\tExpiration is: {expiration}");
+      }
     }
-  }
-
-  [RequestPath("users.profile.set")]
-  internal class ProfileSetResponse : Response
-  {
-  }
-
-
-  [RequestPath("dnd.setSnooze")]
-  internal class DndSetSnoozeResponse : Response
-  {
   }
 
 }

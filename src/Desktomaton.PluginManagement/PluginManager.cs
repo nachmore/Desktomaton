@@ -21,7 +21,7 @@ namespace Desktomaton.PluginManagement
 
       // Navigate up to the solution root
       string pluginDir = Path.GetDirectoryName(typeof(PluginManager).Assembly.Location);
-     
+
       Debug.WriteLine($"Loading plugins from: {pluginDir}");
       var loadContext = new PluginLoadContext(pluginDir);
 
@@ -30,7 +30,6 @@ namespace Desktomaton.PluginManagement
         Debug.WriteLine($"Attempting to load {file}");
 
         var assembly = loadContext.LoadFromAssemblyName(new AssemblyName(Path.GetFileNameWithoutExtension(file)));
-
         triggers.AddRange(LoadType<DesktomatonTrigger>(assembly));
         actions.AddRange(LoadType<DesktomatonAction>(assembly));
       }
@@ -41,7 +40,7 @@ namespace Desktomaton.PluginManagement
 
     private IEnumerable<T> LoadType<T>(Assembly assembly) where T: class
     {
-      
+
       foreach (var type in assembly.GetTypes())
       {
         if (typeof(T).IsAssignableFrom(type))

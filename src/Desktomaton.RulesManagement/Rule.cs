@@ -55,7 +55,6 @@ namespace Desktomaton.RulesManagement
       if (Triggers.Count == 0)
       {
         rv = true;
-        await RunActions();
       }
 
       foreach (var trigger in Triggers)

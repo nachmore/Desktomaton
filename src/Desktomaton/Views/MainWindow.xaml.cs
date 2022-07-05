@@ -1,5 +1,4 @@
 ﻿using Desktomaton.PluginBase;
-using ModernWpf.Controls;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -32,49 +31,7 @@ namespace Desktomaton.Views
     {
       InitializeComponent();
 
-      NavView.SelectedItem = NavView.MenuItems.OfType<NavigationViewItem>().First();
-      Navigate(NavView.SelectedItem);
-
       Run();
     }
-
-    private void NavView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
-    {
-      if (args.IsSettingsInvoked)
-      {
-        //Navigate(typeof(SettingsPage));
-        //TODO...
-      }
-      else
-      {
-        Navigate(args.InvokedItemContainer);
-      }
-    }
-
-    private void Navigate(object item)
-    {
-      if (item is NavigationViewItem menuItem)
-      {
-        Type pageType = GetPageType(menuItem);
-        if (ContentFrame.CurrentSourcePageType != pageType)
-        {
-          ContentFrame.Navigate(pageType);
-        }
-      }
-    }
-
-    private void Navigate(Type sourcePageType)
-    {
-      if (ContentFrame.CurrentSourcePageType != sourcePageType)
-      {
-        ContentFrame.Navigate(sourcePageType);
-      }
-    }
-
-    private Type GetPageType(NavigationViewItem item)
-    {
-      return item.Tag as Type;
-    }
-
   }
 }
