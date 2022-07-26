@@ -69,6 +69,8 @@ namespace Desktomaton.Plugins.Outlook
 
       foreach (var appointment in appointments)
       {
+        // count maintains a count of the number of properties that are true for this specific
+        // appointment. If that matches the propertySetCount then we have a positive trigger
         var count = 0;
 
         if (Subject != null)
@@ -92,7 +94,15 @@ namespace Desktomaton.Plugins.Outlook
           count--;
 
         if (count == propertySetCount)
+        {
+          var durationTillMeetingEnd = appointment.End - DateTime.Now;
+
+          // if there are extra seconds, add an extra minute, otherwise you'll often end early, and it's generally
+          // better to end after expiry than before (for example, if you're setting status, you don't want it to clear
+          // and then a minute later get set to the right next status).
+          SuggestedExpiry = (uint)((durationTillMeetingEnd).TotalMinutes + (durationTillMeetingEnd.TotalSeconds > 0 ? 1 : 0));
           return true;
+        }
       }
 
       return false;

@@ -9,10 +9,11 @@ namespace Desktomaton.PluginBase
   {
     public abstract Task<bool> EvaluateAsync();
 
+    public virtual uint? SuggestedExpiry { get; set; }
+
     public DesktomatonTrigger CreateInstance()
     {
       return (DesktomatonTrigger)Activator.CreateInstance(this.GetType());
     }
-
   }
 }

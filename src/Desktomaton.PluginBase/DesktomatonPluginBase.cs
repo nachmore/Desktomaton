@@ -48,7 +48,6 @@ namespace Desktomaton.PluginBase
       {
         if (prop.Name == name)
         {
-
           var valueToSet = value;
 
           if (valueToSet != null)

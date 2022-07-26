@@ -57,36 +57,53 @@ namespace Desktomaton.RulesManagement
         rv = true;
       }
 
+      uint? suggestedExpiry = null;
+
       foreach (var trigger in Triggers)
       {
         rv = await trigger.EvaluateAsync();
 
         if (this.RuleType == RuleTypes.OR && rv)
         {
-          await RunActions();
+          await RunActions(trigger.SuggestedExpiry);
           return true;
         } 
         else if (RuleType == RuleTypes.AND && !rv) 
         {
           return false;
         }
+
+        if (rv)
+        {
+          if (suggestedExpiry == null)
+          {
+            suggestedExpiry = trigger.SuggestedExpiry;
+          }
+          else
+          {
+            // suggestedExpiry in AND is the lowest non null SuggestedExpiry
+            suggestedExpiry = (suggestedExpiry.HasValue &&
+                              trigger.SuggestedExpiry.HasValue &&
+                              suggestedExpiry > trigger.SuggestedExpiry ? trigger.SuggestedExpiry : suggestedExpiry);
+          }
+        }
       }
 
       // RuleType == AND
       if (rv)
-        await RunActions();
+        await RunActions(suggestedExpiry);
       
       // we return the value because it's important for RuleGroup evaluation
       return rv;
     }
 
-    private async Task RunActions()
+    private async Task RunActions(uint? SuggestedExpiry)
     {
       foreach (var action in Actions)
       {
         try
         {
-          await action.RunAsync();
+          await action.RunAsync(SuggestedExpiry);
         }
         catch (Exception e)
         {
