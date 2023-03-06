@@ -7,7 +7,7 @@ namespace Desktomaton.PluginBase
   [Serializable]
   public abstract class DesktomatonAction : DesktomatonPluginBase
   {
-    public abstract Task RunAsync(uint? SuggestedExpiry);
+    public abstract Task RunAsync(uint? SuggestedExpiry, string SuggestedStatus);
 
     public DesktomatonAction CreateInstance()
     {

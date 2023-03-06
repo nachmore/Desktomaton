@@ -48,6 +48,10 @@ namespace Desktomaton.Plugins.Outlook
 
     public bool Test { get; set; }
 
+    private static string mailboxUserName { get; set; }
+
+    private const string CUSTOM_STATUS_HEADER = ":: ";
+
     public override async Task<bool> EvaluateAsync()
     {
       Debug.WriteLine("OutlookPlugin: Evaluate()");
@@ -101,6 +105,14 @@ namespace Desktomaton.Plugins.Outlook
           // better to end after expiry than before (for example, if you're setting status, you don't want it to clear
           // and then a minute later get set to the right next status).
           SuggestedExpiry = (uint)((durationTillMeetingEnd).TotalMinutes + (durationTillMeetingEnd.TotalSeconds > 0 ? 1 : 0));
+
+          // we want to make sure that the custom status can't be injected maliciously, so ensure that the mailbox's
+          // user name matches the appointment organizer
+          if (appointment.Location.StartsWith(CUSTOM_STATUS_HEADER) && appointment.Organizer == mailboxUserName)
+          {
+            SuggestedStatus = appointment.Location[CUSTOM_STATUS_HEADER.Length..];
+          }
+
           return true;
         }
       }
@@ -121,7 +133,7 @@ namespace Desktomaton.Plugins.Outlook
         try
         {
           appointments.AddRange(GetCurrentAppointments(calendars[i]));
-        } 
+        }
         catch (COMException e)
         {
           Debug.WriteLine($"Caught COMException reading Outlook calendars (sadly, expected): {e}");
@@ -144,6 +156,7 @@ namespace Desktomaton.Plugins.Outlook
       try
       {
         outlook = new OutlookApp.Application();
+        mailboxUserName = outlook.ActiveExplorer().Session.CurrentUser.AddressEntry.GetExchangeUser().Name;
         stores = outlook.Session.Stores;
       }
       catch (Exception e)

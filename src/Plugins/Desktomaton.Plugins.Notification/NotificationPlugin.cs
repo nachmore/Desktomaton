@@ -64,7 +64,7 @@ namespace Desktomaton.Plugins.Notification
     [DesktomatonProperty(PrettyTitle = "Notification TYpe")]
     public NotificationTypes NotificationType { get; set; } = NotificationTypes.Custom;
 
-    public override async Task RunAsync(uint? SuggestedExpiry)
+    public override async Task RunAsync(uint? SuggestedExpiry, string SuggestedStatus)
     {
       Notifier notifier = null;
 

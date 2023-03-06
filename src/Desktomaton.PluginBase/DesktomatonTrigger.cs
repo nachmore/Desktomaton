@@ -9,7 +9,15 @@ namespace Desktomaton.PluginBase
   {
     public abstract Task<bool> EvaluateAsync();
 
+    /// <summary>
+    /// Allows a trigger to suggest an expiry to the action
+    /// </summary>
     public virtual uint? SuggestedExpiry { get; set; }
+
+    /// <summary>
+    /// Allows a trigger to suggest a status update to the action
+    /// </summary>
+    public virtual string SuggestedStatus { get; set; }
 
     public DesktomatonTrigger CreateInstance()
     {

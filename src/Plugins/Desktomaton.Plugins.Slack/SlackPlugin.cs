@@ -52,7 +52,7 @@ namespace Desktomaton.Plugins.Slack
     // and you should be able to set a default for all plugins of a certain type, or a specific one per plugin instance
     private static SlackAuth _auth = new SlackBrowserAuth();
 
-    public override async Task RunAsync(uint? SuggestedExpiry)
+    public override async Task RunAsync(uint? SuggestedExpiry, string SuggestedStatus)
     {
 
       var expiration = Expiration ?? SuggestedExpiry ?? DEFAULT_EXPIRATION;
@@ -71,7 +71,10 @@ namespace Desktomaton.Plugins.Slack
           await SetDnd(slackClient, expiration);
           break;
         case SlackAction.Status:
-          await SetStatus(slackClient, ActionParameter, expiration);
+
+          var status = SuggestedStatus ?? ActionParameter;
+
+          await SetStatus(slackClient, status, expiration);
           break;
         default:
           throw new NotImplementedException($"Unimplemented action {Action}");

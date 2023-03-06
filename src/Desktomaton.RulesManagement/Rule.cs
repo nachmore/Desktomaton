@@ -58,6 +58,7 @@ namespace Desktomaton.RulesManagement
       }
 
       uint? suggestedExpiry = null;
+      string suggestedStatus = null;
 
       foreach (var trigger in Triggers)
       {
@@ -65,7 +66,7 @@ namespace Desktomaton.RulesManagement
 
         if (this.RuleType == RuleTypes.OR && rv)
         {
-          await RunActions(trigger.SuggestedExpiry);
+          await RunActions(trigger.SuggestedExpiry, trigger.SuggestedStatus);
           return true;
         } 
         else if (RuleType == RuleTypes.AND && !rv) 
@@ -86,24 +87,27 @@ namespace Desktomaton.RulesManagement
                               trigger.SuggestedExpiry.HasValue &&
                               suggestedExpiry > trigger.SuggestedExpiry ? trigger.SuggestedExpiry : suggestedExpiry);
           }
+
+          // first suggested status wins
+          suggestedStatus ??= trigger.SuggestedStatus;
         }
       }
 
       // RuleType == AND
       if (rv)
-        await RunActions(suggestedExpiry);
+        await RunActions(suggestedExpiry, suggestedStatus);
       
       // we return the value because it's important for RuleGroup evaluation
       return rv;
     }
 
-    private async Task RunActions(uint? SuggestedExpiry)
+    private async Task RunActions(uint? SuggestedExpiry, string SuggestedStatus)
     {
       foreach (var action in Actions)
       {
         try
         {
-          await action.RunAsync(SuggestedExpiry);
+          await action.RunAsync(SuggestedExpiry, SuggestedStatus);
         }
         catch (Exception e)
         {
