@@ -1,10 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
     <TargetFramework>net6.0-windows</TargetFramework>
     <OutputPath>..\..\Desktomaton\bin\debug</OutputPath>
-    <OutputPath>..\..\Desktomaton\bin\debug</OutputPath>
+  </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+     <TargetFramework>net6.0-windows</TargetFramework>
+     <OutputPath>..\..\Desktomaton\bin\release</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>

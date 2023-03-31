@@ -1,11 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
     <TargetFramework>net6.0-windows</TargetFramework>
     <OutputPath>..\..\Desktomaton\bin\debug</OutputPath>
   </PropertyGroup>
 
-  <ItemGroup>
+    <PropertyGroup Condition="'$(Configuration)'=='Release'">
+        <TargetFramework>net6.0-windows</TargetFramework>
+        <OutputPath>..\..\Desktomaton\bin\release</OutputPath>
+    </PropertyGroup>
+
+
+    <ItemGroup>
     <COMReference Include="Microsoft.Office.Outlook.dll">
       <Guid>00062fff-0000-0000-c000-000000000046</Guid>
       <VersionMajor>9</VersionMajor>

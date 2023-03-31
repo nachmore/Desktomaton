@@ -1,11 +1,16 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
     <TargetFramework>net6.0-windows</TargetFramework>
     <OutputPath>..\..\Desktomaton\bin\debug</OutputPath>
   </PropertyGroup>
 
-  <ItemGroup>
+    <PropertyGroup Condition="'$(Configuration)'=='Release'">
+        <TargetFramework>net6.0-windows</TargetFramework>
+        <OutputPath>..\..\Desktomaton\bin\release</OutputPath>
+    </PropertyGroup>
+
+    <ItemGroup>
     <ProjectReference Include="..\..\Desktomaton.PluginBase\Desktomaton.PluginBase.csproj">
       <Private>false</Private>
       <ExcludeAssets>runtime</ExcludeAssets>

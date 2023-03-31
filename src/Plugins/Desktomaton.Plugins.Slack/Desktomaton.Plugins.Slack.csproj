@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
     <TargetFramework>net6.0-windows</TargetFramework>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <UseWPF>true</UseWPF>
@@ -11,7 +11,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
 
-  <ItemGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+        <OutputPath>..\..\Desktomaton\bin\release</OutputPath>
+        <WarningLevel>4</WarningLevel>
+    </PropertyGroup>
+
+
+    <ItemGroup>
     <PackageReference Include="CookiesTxtParser" Version="1.0.1" />
     <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.1210.30" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
@@ -26,7 +32,7 @@
 
   <ItemGroup>
     <Reference Include="SlackAPI">
-      <HintPath>..\..\..\..\SlackAPI\SlackAPI\bin\Debug\net60\SlackAPI.dll</HintPath>
+      <HintPath>..\..\..\..\SlackAPI\SlackAPI\bin\Release\net60\SlackAPI.dll</HintPath>
     </Reference>
   </ItemGroup>
 
