@@ -31,6 +31,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Desktomaton.Plugins.Chime",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Desktomaton.Plugins.Notification", "Plugins\Desktomaton.Plugins.Notification\Desktomaton.Plugins.Notification.csproj", "{534ED7CA-35A6-41E5-95C2-26952C4F5BA5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Desktomaton.Plugins.Manual", "Plugins\Desktomaton.Plugins.Manual\Desktomaton.Plugins.Manual.csproj", "{EA5A8D9C-EC12-4DD4-BCDA-330C080CBC62}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -73,6 +75,10 @@ Global
 		{534ED7CA-35A6-41E5-95C2-26952C4F5BA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{534ED7CA-35A6-41E5-95C2-26952C4F5BA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{534ED7CA-35A6-41E5-95C2-26952C4F5BA5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA5A8D9C-EC12-4DD4-BCDA-330C080CBC62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA5A8D9C-EC12-4DD4-BCDA-330C080CBC62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA5A8D9C-EC12-4DD4-BCDA-330C080CBC62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA5A8D9C-EC12-4DD4-BCDA-330C080CBC62}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -83,6 +89,7 @@ Global
 		{996D87CB-26F1-4ADD-9CA1-AE33B938E827} = {619E386F-1568-4621-A013-B4B9B0012A9C}
 		{157E73EE-F9FA-44E2-B997-D5E3DDA72065} = {619E386F-1568-4621-A013-B4B9B0012A9C}
 		{534ED7CA-35A6-41E5-95C2-26952C4F5BA5} = {619E386F-1568-4621-A013-B4B9B0012A9C}
+		{EA5A8D9C-EC12-4DD4-BCDA-330C080CBC62} = {619E386F-1568-4621-A013-B4B9B0012A9C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E202A055-12F3-4374-82AC-16758D7414CF}

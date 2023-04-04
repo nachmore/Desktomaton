@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+        <OutputPath>..\..\Desktomaton\bin\debug</OutputPath>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)'=='Release'">
+        <OutputPath>..\..\Desktomaton\bin\release</OutputPath>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <TargetFramework>net6.0-windows</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\Desktomaton.PluginBase\Desktomaton.PluginBase.csproj" />
+    </ItemGroup>
+
+</Project>
