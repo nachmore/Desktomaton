@@ -38,7 +38,35 @@ namespace Desktomaton.PluginManagement
       Actions = actions;
     }
 
-    private IEnumerable<T> LoadType<T>(Assembly assembly) where T: class
+    public T Get<T>(string type)
+    {
+      List<T> plugins;
+
+      if (typeof(T) == typeof(DesktomatonAction))
+      {
+        plugins = Actions as List<T>;
+      }
+      else if (typeof(T) == typeof(DesktomatonTrigger))
+      {
+        plugins = Triggers as List<T>;
+      }
+      else
+      {
+        throw new TypeAccessException($"T must be DesktomatonAction or DesktomatonTrigger, not {typeof(T).Name}");
+      }
+
+      foreach (var plugin in plugins)
+      {
+        if (plugin.GetType().Name == type)
+        {
+          return plugin;
+        }
+      }
+
+      return default(T);
+    }
+
+    private IEnumerable<T> LoadType<T>(Assembly assembly) where T : class
     {
 
       foreach (var type in assembly.GetTypes())
