@@ -105,14 +105,24 @@ namespace Desktomaton.Plugins.Slack
         };
 
       var profile = new Tuple<string, string>("profile", JsonConvert.SerializeObject(profile_parameters));
-      
-      var response = await slackClient.APIRequestWithTokenAsync<ProfileSetResponse>(profile);
 
-      if (!response.ok)
+      try
       {
-        Debug.WriteLine($"** Slack Request Failed: {response.error}\n\tProfile is: {profile_parameters}");
-      }
+        var response = await SlackAPIRequestAsync<ProfileSetResponse>(slackClient, profile);
 
+        if (!response.ok)
+        {
+          Debug.WriteLine($"** Slack Request Failed: {response.error}\n\tProfile is: {profile_parameters}");
+        }
+      } 
+      catch (NullReferenceException)
+      {
+        Debug.WriteLine("Failed to call Slack - likely due to lack of internet (or Slack is down) - (NullReferenceException)");
+      }
+      catch (Exception e)
+      {
+        Debug.WriteLine($"Failed to call Slack due to an unexpected exception: {e})");
+      }
     }
 
     //TODO: Do we need a way to end Dnd? Either with expiration 0 or via dnd.endSnooze
@@ -124,12 +134,33 @@ namespace Desktomaton.Plugins.Slack
 
       var param = new Tuple<string, string>("num_minutes", expiration.ToString());
 
-      var response = await slackClient.APIRequestWithTokenAsync<DndSetSnoozeResponse>(param);
+      var response = await SlackAPIRequestAsync<DndSetSnoozeResponse>(slackClient, param);
 
       if (!response.ok)
       {
         Debug.WriteLine($"** Slack Request Failed: {response.error}\n\tExpiration is: {expiration}");
       }
+    }
+
+    private async Task<T> SlackAPIRequestAsync<T>(SlackTaskClient slackClient, Tuple<string, string> param) where T : SlackAPI.Response, new()
+    {
+      var response = new T() { ok = false };
+
+      try {
+        response = await slackClient.APIRequestWithTokenAsync<T>(param);
+
+        return response;
+      } 
+      catch (NullReferenceException e)
+      {
+        Debug.WriteLine($"Failed to call Slack - likely due to lack of internet (or Slack is down). Type: {typeof(T).Name}\nParameters: {param}\nException: {e}");
+      }
+      catch (Exception e)
+      {
+        Debug.WriteLine($"Failed to call Slack due to an unexpected exception. Type: {typeof(T).Name}\nParameters: {param}\nException: {e}");
+      }
+
+      return response;
     }
   }
 
