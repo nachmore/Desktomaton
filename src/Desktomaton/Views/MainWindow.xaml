@@ -8,6 +8,7 @@
         Title="Desktomaton" Height="473" Width="800" ResizeMode="CanMinimize">
   <Grid>
         <Button x:Name="btnPaged" Content="🚨" HorizontalAlignment="Left" Margin="309,50,0,0" VerticalAlignment="Top" Height="52" Width="70" Click="btnPaged_Click"/>
+        <Button x:Name="btnRefresh" Content="🔃" HorizontalAlignment="Left" Margin="400,50,0,0" VerticalAlignment="Top" Height="52" Width="70" Click="btnRefresh_Click"/>
         <ListBox x:Name="listBox" d:ItemsSource="{d:SampleData ItemCount=5}" Height="NaN" Margin="0,128,0,0"/>
 
     </Grid>

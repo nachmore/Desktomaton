@@ -33,5 +33,10 @@ namespace Desktomaton.Views
 
       Run();
     }
+
+    private void btnRefresh_Click(object sender, RoutedEventArgs e)
+    {
+      RunRules();
+    }
   }
 }
