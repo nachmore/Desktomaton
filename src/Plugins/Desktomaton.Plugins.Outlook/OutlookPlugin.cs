@@ -108,7 +108,7 @@ namespace Desktomaton.Plugins.Outlook
 
           // we want to make sure that the custom status can't be injected maliciously, so ensure that the mailbox's
           // user name matches the appointment organizer
-          if (appointment.Location.StartsWith(CUSTOM_STATUS_HEADER) && appointment.Organizer == mailboxUserName)
+          if (appointment.Location != null && appointment.Location.StartsWith(CUSTOM_STATUS_HEADER) && appointment.Organizer == mailboxUserName)
           {
             SuggestedStatus = appointment.Location[CUSTOM_STATUS_HEADER.Length..];
           }
