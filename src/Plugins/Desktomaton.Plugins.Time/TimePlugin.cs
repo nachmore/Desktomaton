@@ -27,6 +27,8 @@ namespace Desktomaton.Plugins.Time
 
     public override async Task<bool> EvaluateAsync()
     {
+      var rv = false;
+
       // the number of properties set, i.e. the number that need to evaluate to true
       // for Evaluate() to return true
       var propertySetCount = GetSetPropertyCount();
@@ -49,7 +51,7 @@ namespace Desktomaton.Plugins.Time
         var endMinute = (int)EndMinute.GetValueOrDefault();
 
         if (!DaysOfWeek?.Contains(now.DayOfWeek) == false)
-          return false;
+          return rv;
 
         var start = new DateTime(now.Year, now.Month, now.Day, startHour, startMinute, 0);
         var end = new DateTime(now.Year, now.Month, now.Day, endHour, endMinute, 0);
@@ -63,15 +65,24 @@ namespace Desktomaton.Plugins.Time
             // otherwise evaluate from today to tomorrow
             end = end.AddDays(1);
 
-        return (now > start && now < end);
-      } 
+        rv = (now > start && now < end);
+
+        // if this trigger is set, suggest an expiry time (+1 to account for left over seconds)
+        if (rv)
+          SuggestedExpiry = (uint)(end.Subtract(now).TotalMinutes + 1);
+      }
       else
       {
-        if (DaysOfWeek?.Contains(now.DayOfWeek) == true)
-          return true;
+        rv = (DaysOfWeek?.Contains(now.DayOfWeek) == true);
+
+        // calculate time till midnight tomorrow (+1 to account for left over seconds)
+        if (rv) {
+          var tomorrow = now.Date.AddDays(1);
+          SuggestedExpiry = (uint)(tomorrow.Subtract(now).TotalMinutes + 1);
+        }
       }
 
-      return false;
+      return rv;
     }
   }
 }

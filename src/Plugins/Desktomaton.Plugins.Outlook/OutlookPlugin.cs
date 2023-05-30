@@ -174,7 +174,7 @@ namespace Desktomaton.Plugins.Outlook
       }
 
       // foreach on COM objects can sometimes get into weird states when encountering
-      // a corrupt pst,  where null objects repeat themselves, and a foreach goes into
+      // a corrupt pst, where null objects repeat themselves, and a foreach goes into
       // an infinite loop, so prefer traditional for
       //
       // Note: These are one-based arrays

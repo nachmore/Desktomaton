@@ -54,7 +54,6 @@ namespace Desktomaton.Plugins.Slack
 
     public override async Task RunAsync(uint? SuggestedExpiry, string SuggestedStatus)
     {
-
       var expiration = Expiration ?? SuggestedExpiry ?? DEFAULT_EXPIRATION;
 
       _auth.Retrieve();
