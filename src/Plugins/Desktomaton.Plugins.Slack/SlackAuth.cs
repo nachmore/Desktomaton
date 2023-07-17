@@ -26,7 +26,7 @@ namespace Desktomaton.Plugins.Slack
       {
         _token = value;
 
-        if (UseCache)
+        if (_token != null && UseCache)
           CacheToken();
       }
     }
@@ -39,7 +39,7 @@ namespace Desktomaton.Plugins.Slack
       {
         _cookies = value;
 
-        if (UseCache)
+        if (_cookies != null && UseCache)
           CacheCookies();
       }
     }
@@ -47,14 +47,24 @@ namespace Desktomaton.Plugins.Slack
     public bool UseCache { get; set; } = true;
     public string CachePath { get; set; } = Path.GetTempPath();
 
+    private bool RefreshCache { get; set; } = false;
+
     abstract public bool Retrieve();
 
     internal bool LoadFromCache()
     {
+      // we've been asked to refresh the cache, so return a fail so that the cache
+      // is recreated
+      if (RefreshCache)
+      {
+        RefreshCache = false;
+        return false;
+      }
+
       var cookieFile = Path.Combine(CachePath, _cacheCookiesFileName);
       var tokenFile = Path.Combine(CachePath, _cacheTokenFileName);
 
-      if (Token == null && File.Exists(cookieFile) && File.Exists(tokenFile))
+      if (Token == null && File.Exists(tokenFile) && File.Exists(cookieFile))
       {
         try
         {
@@ -95,6 +105,16 @@ namespace Desktomaton.Plugins.Slack
       }
 
       return Token != null;
+    }
+
+    public void ClearCache()
+    {
+      // don't actually clear the cache file, just signal to fail loading so that the cache is refreshed
+      RefreshCache = true;
+
+      // do clear cached values
+      Token = null;
+      Cookies = null;
     }
 
     private void CacheToken()

@@ -85,14 +85,14 @@ namespace Desktomaton.Plugins.Slack
     private async Task SetStatus(SlackTaskClient slackClient, string param, uint? expiration)
     {
       var emoji = "";
-      var text = param;
+      var text = param.Trim();
 
-      if (param.StartsWith(":"))
+      if (text.StartsWith(":"))
       {
-        var emoji_index = param.IndexOf(":", 1);
-        emoji = param.Substring(0, emoji_index + 1);
+        var emoji_index = text.IndexOf(":", 1);
+        emoji = text.Substring(0, emoji_index + 1);
 
-        text = param.Substring(emoji_index + 1);
+        text = text.Substring(emoji_index + 1).Trim();
       }
 
       var profile_parameters =
@@ -147,6 +147,11 @@ namespace Desktomaton.Plugins.Slack
 
       try {
         response = await slackClient.APIRequestWithTokenAsync<T>(param);
+
+        if (!response.ok && response.error == "invalid_auth")
+        {
+          _auth.ClearCache();
+        }
 
         return response;
       } 
