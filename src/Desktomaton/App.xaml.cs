@@ -16,6 +16,8 @@ namespace Desktomaton
   /// </summary>
   public partial class App : PrismApplication
   {
+    MainWindow _mainWindow;
+
     protected override Window CreateShell()
     {
       return null;
@@ -58,8 +60,12 @@ namespace Desktomaton
 
     void TrayIconShowWindow(object sender, EventArgs e)
     {
-      var mainWindow = Container.Resolve<MainWindow>();
-      mainWindow.Show();
+      if (_mainWindow == null)
+      {
+        _mainWindow = Container.Resolve<MainWindow>();
+      }
+
+      _mainWindow.Show();
     }
 
     private void TrayMenuRefresh_Click(object sender, EventArgs e)
