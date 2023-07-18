@@ -20,18 +20,17 @@ namespace Desktomaton.Plugins.Notification
     {
       _ = Application.Current.Dispatcher.InvokeAsync(() =>
         {
-
-        // This is completely fake code that is never actually run, but forces .NET to load the
-        // ToastNotifications.Messages library already at this point, allowing us to add the resource
-        // to the dictionary
-        if (Application.Current.MainWindow == null)
+          // This is completely fake code that is never actually run, but forces .NET to load the
+          // ToastNotifications.Messages library already at this point, allowing us to add the resource
+          // to the dictionary
+          if (Application.Current.MainWindow != null)
           {
             var notifier = new Notifier(null);
             notifier.ShowError(null);
           }
 
-        // inject required resources - but only once
-        var dictionary = new ResourceDictionary();
+          // inject required resources - but only once
+          var dictionary = new ResourceDictionary();
           dictionary.Source = new Uri("pack://application:,,,/ToastNotifications.Messages;component/Themes/Default.xaml");
 
           Application.Current.Resources.MergedDictionaries.Add(dictionary);
