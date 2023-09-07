@@ -53,6 +53,7 @@ namespace Desktomaton
         Icon = new Icon(GetResourceStream(new Uri("pack://application:,,,/robot.ico")).Stream),
         Visible = true,
         ContextMenuStrip = menu,
+        Text = "Desktomaton"
       };
 
       icon.DoubleClick += new EventHandler(TrayIconShowWindow);
