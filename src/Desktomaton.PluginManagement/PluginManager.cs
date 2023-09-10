@@ -74,9 +74,8 @@ namespace Desktomaton.PluginManagement
         if (typeof(T).IsAssignableFrom(type))
         {
           Debug.WriteLine($"{assembly.FullName}: Activating {type}");
-          var rv = Activator.CreateInstance(type) as T;
 
-          if (rv != null)
+          if (Activator.CreateInstance(type) is T rv)
             yield return rv;
         }
       }
