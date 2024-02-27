@@ -77,11 +77,16 @@ namespace Desktomaton.Plugins.Outlook
         // appointment. If that matches the propertySetCount then we have a positive trigger
         var count = 0;
 
+        // explicitly store the subject to avoid repeated COM calls and to allow breakpoints
+        // to be set on the subject
+        var aptSubject = appointment.Subject;
+
+
         if (Subject != null)
         {
           foreach (var subject in Subject)
           {
-            if (appointment.Subject.ToLower().Contains(subject))
+            if (aptSubject.ToLower().Contains(subject))
             {
               count++;
             }
