@@ -49,7 +49,7 @@ namespace Desktomaton.Plugins.Slack
 
     private bool RefreshCache { get; set; } = false;
 
-    abstract public bool Retrieve();
+    abstract public Task<bool> Retrieve();
 
     internal bool LoadFromCache()
     {

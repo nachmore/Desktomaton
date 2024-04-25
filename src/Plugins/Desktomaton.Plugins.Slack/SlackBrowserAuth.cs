@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace Desktomaton.Plugins.Slack
@@ -22,8 +23,14 @@ namespace Desktomaton.Plugins.Slack
       _cacheTokenFileName = _TOKEN_FILE_NAME;
     }
 
-    override public bool Retrieve()
+    override public async Task<bool> Retrieve()
     {
+      // if we're running on the UI thread then we risk blocking the UI thread
+      // (this can happen if we hit this function via a UI feature), so spawn ourselves on a background thread
+      if (SynchronizationContext.Current != null)
+      {
+        return await Task.Run(() => { return Retrieve(); });
+      }
 
       // check for token null to avoid locking for no reason
       if (Token == null)
@@ -38,7 +45,7 @@ namespace Desktomaton.Plugins.Slack
 
         if (LoadFromCache())
         {
-          _resetEvent.Reset();
+          _resetEvent.Set();
         } 
         else
         {

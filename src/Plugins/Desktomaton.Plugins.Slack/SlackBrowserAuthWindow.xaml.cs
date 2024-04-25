@@ -51,9 +51,8 @@ namespace Desktomaton.Plugins.Slack
 
       Debug.WriteLine(request.Uri);
 
-      if (!request.Uri.Contains("edgeapi.") && !request.Uri.Contains(".enterprise.") && request.Content != null)
+      if (!request.Uri.Contains("edgeapi.") && request.Content != null)
       {
-
         var contentStream = request.Content;
 
         var reader = new StreamReader(contentStream);
@@ -86,26 +85,6 @@ namespace Desktomaton.Plugins.Slack
           OnAuthRetrieved(token, cookieContainer);
         }
       }
-    }
-
-    private async Task Test(string token, CookieContainer cookies)
-    {
-
-      var values = new Dictionary<string, string>
-            {
-                { "token", token },
-                { "profile", "{\"status_text\":\"dfs9000-00m\"}" }
-            };
-
-      var handler = new HttpClientHandler() { CookieContainer = cookies };
-      HttpClient client = new HttpClient(handler);
-
-      var content = new FormUrlEncodedContent(values);
-      var response = await client.PostAsync("https://slack.com/api/users.profile.set", content);
-      
-      var responseString = await response.Content.ReadAsStringAsync();
-      Console.WriteLine(responseString);
-
     }
 
     private Cookie ConvertCookie(Microsoft.Web.WebView2.Core.CoreWebView2Cookie wv2Cookie)

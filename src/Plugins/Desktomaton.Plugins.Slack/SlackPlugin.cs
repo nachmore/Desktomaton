@@ -56,7 +56,7 @@ namespace Desktomaton.Plugins.Slack
     {
       var expiration = Expiration ?? SuggestedExpiry ?? DEFAULT_EXPIRATION;
 
-      _auth.Retrieve();
+      await _auth.Retrieve();
 
       SlackToken = _auth.Token;
 
