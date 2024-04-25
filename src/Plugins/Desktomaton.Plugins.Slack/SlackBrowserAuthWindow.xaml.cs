@@ -1,20 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Desktomaton.Plugins.Slack
 {
@@ -23,6 +11,10 @@ namespace Desktomaton.Plugins.Slack
   /// </summary>
   public partial class SlackBrowserAuthWindow : Window
   {
+
+    private string _token = null;
+    private CookieContainer _cookieContainer = null;
+
     public SlackBrowserAuthWindow()
     {
       InitializeComponent();
@@ -65,26 +57,31 @@ namespace Desktomaton.Plugins.Slack
 
           // tokens are 111 spaces:
           // xoxc-1234567890987-1234567890123-1234567890123-1234567890987654321234567890987654321234567890987654321234567890
-          var token = content.Substring(content.IndexOf("xoxc"), 111);
+          _token = content.Substring(content.IndexOf("xoxc"), 111);
 
           var cookies = await browser.CoreWebView2.CookieManager.GetCookiesAsync("");
 
-          var cookieContainer = new CookieContainer();
+          _cookieContainer = new CookieContainer();
 
           foreach (var cookie in cookies)
           {
             if (cookie.Domain.EndsWith("slack.com"))
             {
-              cookieContainer.Add(ConvertCookie(cookie));
+              _cookieContainer.Add(ConvertCookie(cookie));
             }
           }
 
           browser.Stop();
           Close();
-
-          OnAuthRetrieved(token, cookieContainer);
         }
       }
+    }
+
+    private void Window_Closed(object sender, EventArgs e)
+    {
+      // if the window is closed manually we'll still invoke the callback so that it doesn't block forever,
+      // it will just be called with nulls
+      OnAuthRetrieved(_token, _cookieContainer);
     }
 
     private Cookie ConvertCookie(Microsoft.Web.WebView2.Core.CoreWebView2Cookie wv2Cookie)
@@ -108,6 +105,7 @@ namespace Desktomaton.Plugins.Slack
     {
       AuthRetrieved?.Invoke(this, new AuthRetrievedArgs(token, cookies));
     }
+
   }
 
   public class AuthRetrievedArgs : EventArgs

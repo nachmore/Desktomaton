@@ -7,6 +7,7 @@
         xmlns:local="clr-namespace:Desktomaton.Plugins.Slack"
         mc:Ignorable="d"
         Loaded="Window_Loaded"
+        Closed="Window_Closed"
         Title="Slack - Login" Height="450" Width="800">
     <Grid>
         <wv2:WebView2 Name="browser" CoreWebView2InitializationCompleted="browser_CoreWebView2InitializationCompleted" Source="https://microsoft.com"></wv2:WebView2>
