@@ -41,9 +41,10 @@ namespace Desktomaton.Plugins.Slack
     {
       var request = e.Request;
 
-      Debug.WriteLine(request.Uri);
+      // log every request coming through the WebView
+      // Log.WriteLine("URL:" + request.Uri);
 
-      if (!request.Uri.Contains("edgeapi.") && request.Content != null)
+      if (request.Uri.Contains("slack.com/api/conversations") && request.Content != null)
       {
         var contentStream = request.Content;
 
