@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Windows;
+﻿using System.Windows;
+using Desktomaton.Logger;
 
 namespace Desktomaton.Views
 {
@@ -16,6 +16,17 @@ namespace Desktomaton.Views
       InitializeComponent();
 
       _ruleRunner = PrivateRuleRunner.Instance;
+
+      Log.NewLogs += Log_NewLogs;
+      
+      // initalize with what is currently there (otherwise it won't refresh until there
+      // are new logs)
+      txtLog.Text = Log.LogBuffer;
+    }
+
+    private void Log_NewLogs(object sender, System.EventArgs e)
+    {
+      txtLog.Text = Log.LogBuffer;
     }
 
     private void btnRefresh_Click(object sender, RoutedEventArgs e)

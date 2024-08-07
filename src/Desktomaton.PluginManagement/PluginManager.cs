@@ -1,4 +1,5 @@
-﻿using Desktomaton.PluginBase;
+﻿using Desktomaton.Logger;
+using Desktomaton.PluginBase;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -22,12 +23,12 @@ namespace Desktomaton.PluginManagement
       // Navigate up to the solution root
       string pluginDir = Path.GetDirectoryName(typeof(PluginManager).Assembly.Location);
 
-      Debug.WriteLine($"Loading plugins from: {pluginDir}");
+      Log.WriteLine($"Loading plugins from: {pluginDir}");
       var loadContext = new PluginLoadContext(pluginDir);
 
       foreach (var file in Directory.GetFiles(pluginDir, "*.Plugins.*.dll"))
       {
-        Debug.WriteLine($"Attempting to load {file}");
+        Log.WriteLine($"Attempting to load {file}");
 
         var assembly = loadContext.LoadFromAssemblyName(new AssemblyName(Path.GetFileNameWithoutExtension(file)));
         triggers.AddRange(LoadType<DesktomatonTrigger>(assembly));
@@ -73,7 +74,7 @@ namespace Desktomaton.PluginManagement
       {
         if (typeof(T).IsAssignableFrom(type))
         {
-          Debug.WriteLine($"{assembly.FullName}: Activating {type}");
+          Log.WriteLine($"{assembly.FullName}: Activating {type}");
 
           if (Activator.CreateInstance(type) is T rv)
             yield return rv;

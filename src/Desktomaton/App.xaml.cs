@@ -8,6 +8,9 @@ using NotifyIcon = System.Windows.Forms.NotifyIcon;
 using ContextMenuStrip = System.Windows.Forms.ContextMenuStrip;
 using ToolStripMenuItem = System.Windows.Forms.ToolStripMenuItem;
 using ToolStripSeparator = System.Windows.Forms.ToolStripSeparator;
+using System.Diagnostics;
+using System.Media;
+using Desktomaton.Logger;
 
 namespace Desktomaton
 {
@@ -16,7 +19,7 @@ namespace Desktomaton
   /// </summary>
   public partial class App : PrismApplication
   {
-    MainWindow _mainWindow;
+    public MainWindow AppWindow { get; private set; }
 
     protected override Window CreateShell()
     {
@@ -61,12 +64,12 @@ namespace Desktomaton
 
     void TrayIconShowWindow(object sender, EventArgs e)
     {
-      if (_mainWindow == null)
+      if (AppWindow == null)
       {
-        _mainWindow = Container.Resolve<MainWindow>();
+        AppWindow = Container.Resolve<MainWindow>();
       }
 
-      _mainWindow.Show();
+      AppWindow.Show();
     }
 
     private void TrayMenuRefresh_Click(object sender, EventArgs e)

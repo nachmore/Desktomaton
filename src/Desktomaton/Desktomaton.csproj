@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows7.0</TargetFramework>
     <UseWPF>true</UseWPF>
     <UseWindowsForms>true</UseWindowsForms>
     <ApplicationIcon>robot.ico</ApplicationIcon>
@@ -22,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Desktomaton.Logger\Desktomaton.Logger.csproj" />
     <ProjectReference Include="..\Desktomaton.PluginManagement\Desktomaton.PluginManagement.csproj" />
     <ProjectReference Include="..\Desktomaton.RulesManagement\Desktomaton.RulesManagement.csproj" />
   </ItemGroup>

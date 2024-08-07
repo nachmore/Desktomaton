@@ -10,11 +10,13 @@
      <OutputPath>..\..\Desktomaton\bin\release</OutputPath>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows7.0</TargetFramework>
+  </PropertyGroup>
+
   <ItemGroup>
-    <ProjectReference Include="..\..\Desktomaton.PluginBase\Desktomaton.PluginBase.csproj">
-      <Private>false</Private>
-      <ExcludeAssets>runtime</ExcludeAssets>
-    </ProjectReference>
+    <ProjectReference Include="..\..\Desktomaton.Logger\Desktomaton.Logger.csproj" />
+    <ProjectReference Include="..\..\Desktomaton.PluginBase\Desktomaton.PluginBase.csproj" />
   </ItemGroup>
 
 </Project>

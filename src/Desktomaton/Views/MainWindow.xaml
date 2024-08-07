@@ -14,7 +14,7 @@
         </Grid.RowDefinitions>
         <Button x:Name="btnPaged" Content="🚨" HorizontalAlignment="Left" Margin="309,50,0,0" VerticalAlignment="Top" Height="52" Width="70" Click="btnPaged_Click"/>
         <Button x:Name="btnRefresh" Content="🔃" HorizontalAlignment="Left" Margin="400,50,0,0" VerticalAlignment="Top" Height="52" Width="70" Click="btnRefresh_Click"/>
-        <TextBox x:Name="txtLog" IsReadOnly="True" IsReadOnlyCaretVisible="True" Margin="0,128,0,0" Grid.RowSpan="2"/>
+        <TextBox x:Name="txtLog" IsReadOnly="True" IsReadOnlyCaretVisible="True" Margin="0,128,0,0" Grid.RowSpan="2" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"/>
 
     </Grid>
 </Window>

@@ -10,6 +10,7 @@ using System.IO;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System;
+using Desktomaton.Logger;
 
 namespace Desktomaton.Plugins.Slack
 {
@@ -100,7 +101,7 @@ namespace Desktomaton.Plugins.Slack
         {
           Cookies = null;
           Token = null;
-          System.Diagnostics.Debug.WriteLine(e);
+          Log.WriteLine(e);
         }
       }
 

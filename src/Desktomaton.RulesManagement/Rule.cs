@@ -1,4 +1,5 @@
-﻿using Desktomaton.PluginBase;
+﻿using Desktomaton.Logger;
+using Desktomaton.PluginBase;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -111,7 +112,7 @@ namespace Desktomaton.RulesManagement
         }
         catch (Exception e)
         {
-          Debug.WriteLine($"{e.GetType().Name} thrown running {action.Name}:\n{e}");
+          Log.WriteLine($"{e.GetType().Name} thrown running {action.Name}:\n{e}");
 
           if (Debugger.IsAttached)
             Debugger.Break();

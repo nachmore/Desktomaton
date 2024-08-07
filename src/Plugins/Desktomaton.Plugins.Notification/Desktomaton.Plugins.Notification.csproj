@@ -14,6 +14,10 @@
         <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     </PropertyGroup>
 
+    <PropertyGroup>
+      <TargetFramework>net8.0-windows7.0</TargetFramework>
+    </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Emoji.Wpf" Version="0.3.3" />
     <PackageReference Include="ToastNotifications" Version="2.5.1" />
@@ -21,6 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Desktomaton.Logger\Desktomaton.Logger.csproj" />
     <ProjectReference Include="..\..\Desktomaton.PluginBase\Desktomaton.PluginBase.csproj">
       <Private>false</Private>
       <ExcludeAssets>runtime</ExcludeAssets>

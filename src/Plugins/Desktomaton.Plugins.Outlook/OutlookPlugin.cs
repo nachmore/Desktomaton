@@ -2,9 +2,9 @@
 using OutlookApp = Microsoft.Office.Interop.Outlook;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
+using Desktomaton.Logger;
 
 namespace Desktomaton.Plugins.Outlook
 {
@@ -22,7 +22,7 @@ namespace Desktomaton.Plugins.Outlook
 
     public OutlookPlugin()
     {
-      Debug.WriteLine("OutlookPlugin() created");
+      Log.WriteLine("OutlookPlugin() created");
     }
 
     public override string Name => "📅 Outlook";
@@ -54,7 +54,7 @@ namespace Desktomaton.Plugins.Outlook
 
     public override async Task<bool> EvaluateAsync()
     {
-      Debug.WriteLine("OutlookPlugin: Evaluate()");
+      Log.WriteLine("OutlookPlugin: Evaluate()");
 
       // the number of properties set, i.e. the number that need to evaluate to true
       // for Evaluate() to return true
@@ -141,7 +141,7 @@ namespace Desktomaton.Plugins.Outlook
         }
         catch (COMException e)
         {
-          Debug.WriteLine($"Caught COMException reading Outlook calendars (sadly, expected): {e}");
+          Log.WriteLine($"Caught COMException reading Outlook calendars (sadly, expected): {e}");
         }
       }
 
@@ -166,7 +166,7 @@ namespace Desktomaton.Plugins.Outlook
       }
       catch (Exception e)
       {
-        Debug.WriteLine($"Exception initializing Outlook in GetCalendars.\n{e}");
+        Log.WriteLine($"Exception initializing Outlook in GetCalendars.\n{e}");
 
         // this can generally be ignored (it's often a COM RETRYLATER when Outlook is stuck
         // booting up etc). Regardless, there is no remediation, so let's bail.
@@ -200,14 +200,14 @@ namespace Desktomaton.Plugins.Outlook
             continue;
 
           var folder = (OutlookApp.Folder)store.GetDefaultFolder(OutlookApp.OlDefaultFolders.olFolderCalendar);
-          System.Diagnostics.Debug.WriteLine($"Found calendar: {folder.Name} in store {store.DisplayName}");
+          Log.WriteLine($"Found calendar: {folder.Name} in store {store.DisplayName}");
 
           folders.Add(folder);
         }
         catch (Exception e)
         {
           // Not every root folder has a calendar (for example, Public folders), so this exception can be ignored
-          Debug.WriteLine($"Failed to get Calendar for {store?.DisplayName} type: {store?.ExchangeStoreType}:\n{e}");
+          Log.WriteLine($"Failed to get Calendar for {store?.DisplayName} type: {store?.ExchangeStoreType}:\n{e}");
         }
       }
 
@@ -255,7 +255,7 @@ namespace Desktomaton.Plugins.Outlook
       {
         rv.Add(item);
 
-        Debug.WriteLine("++: " + item.Start + " -> " + item.End + ": " + item.Subject);
+        Log.WriteLine("++: " + item.Start + " -> " + item.End + ": " + item.Subject);
       }
 
       return rv;

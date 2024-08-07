@@ -1,4 +1,5 @@
-﻿using Desktomaton.PluginBase;
+﻿using Desktomaton.Logger;
+using Desktomaton.PluginBase;
 using Newtonsoft.Json;
 using SlackAPI;
 using System;
@@ -79,7 +80,7 @@ namespace Desktomaton.Plugins.Slack
           throw new NotImplementedException($"Unimplemented action {Action}");
       }
 
-      Debug.WriteLine("SlackPlugin: Run()");
+      Log.WriteLine("SlackPlugin: Run()");
     }
 
     private async Task SetStatus(SlackTaskClient slackClient, string param, uint? expiration)
@@ -111,16 +112,16 @@ namespace Desktomaton.Plugins.Slack
 
         if (!response.ok)
         {
-          Debug.WriteLine($"** Slack Request Failed: {response.error}\n\tProfile is: {profile_parameters}");
+          Log.WriteLine($"** Slack Request Failed: {response.error}\n\tProfile is: {profile_parameters}");
         }
       } 
       catch (NullReferenceException)
       {
-        Debug.WriteLine("Failed to call Slack - likely due to lack of internet (or Slack is down) - (NullReferenceException)");
+        Log.WriteLine("Failed to call Slack - likely due to lack of internet (or Slack is down) - (NullReferenceException)");
       }
       catch (Exception e)
       {
-        Debug.WriteLine($"Failed to call Slack due to an unexpected exception: {e})");
+        Log.WriteLine($"Failed to call Slack due to an unexpected exception: {e})");
       }
     }
 
@@ -137,7 +138,7 @@ namespace Desktomaton.Plugins.Slack
 
       if (!response.ok)
       {
-        Debug.WriteLine($"** Slack Request Failed: {response.error}\n\tExpiration is: {expiration}");
+        Log.WriteLine($"** Slack Request Failed: {response.error}\n\tExpiration is: {expiration}");
       }
     }
 
@@ -157,11 +158,11 @@ namespace Desktomaton.Plugins.Slack
       } 
       catch (NullReferenceException e)
       {
-        Debug.WriteLine($"Failed to call Slack - likely due to lack of internet (or Slack is down). Type: {typeof(T).Name}\nParameters: {param}\nException: {e}");
+        Log.WriteLine($"Failed to call Slack - likely due to lack of internet (or Slack is down). Type: {typeof(T).Name}\nParameters: {param}\nException: {e}");
       }
       catch (Exception e)
       {
-        Debug.WriteLine($"Failed to call Slack due to an unexpected exception. Type: {typeof(T).Name}\nParameters: {param}\nException: {e}");
+        Log.WriteLine($"Failed to call Slack due to an unexpected exception. Type: {typeof(T).Name}\nParameters: {param}\nException: {e}");
       }
 
       return response;

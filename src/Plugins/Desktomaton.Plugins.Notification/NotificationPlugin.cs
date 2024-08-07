@@ -11,6 +11,7 @@ using System.Reflection;
 using System.IO;
 using Desktomaton.Plugins.Notification.DesktomatonNotification;
 using System.Diagnostics;
+using Desktomaton.Logger;
 
 namespace Desktomaton.Plugins.Notification
 {
@@ -122,7 +123,7 @@ namespace Desktomaton.Plugins.Notification
             if (Debugger.IsAttached)
               throw new ArgumentException($"{nameof(NotificationType)} is invalid and has hit the Default case. Value is: {NotificationType}");
 
-            Debug.WriteLine($"{nameof(NotificationType)} is invalid and has hit the Default case. Value is: {NotificationType}");
+            Log.WriteLine($"{nameof(NotificationType)} is invalid and has hit the Default case. Value is: {NotificationType}");
 
             break;
         }

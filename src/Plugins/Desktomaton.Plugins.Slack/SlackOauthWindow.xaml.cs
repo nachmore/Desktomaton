@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Desktomaton.Logger;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
@@ -34,7 +35,7 @@ namespace Desktomaton.Plugins.Slack
 
     private void browser_NavigationCompleted(object sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationCompletedEventArgs e)
     {
-      System.Diagnostics.Debug.WriteLine(browser.Source);
+      Log.WriteLine(browser.Source);
 
       if (browser.Source.ToString().StartsWith("https://localhost/"))
       {
@@ -56,7 +57,7 @@ namespace Desktomaton.Plugins.Slack
 
       // extract code from url
       var code = url.Substring(url.IndexOf("=") + 1, url.Length - (url.IndexOf("=") + 1) - (url.Length - url.IndexOf("&")));
-      System.Diagnostics.Debug.WriteLine(code);
+      Log.WriteLine(code);
 
       var httpClient = new HttpClient();
 
@@ -69,13 +70,13 @@ namespace Desktomaton.Plugins.Slack
 
       var response = await httpClient.PostAsync("https://slack.com/api/oauth.v2.access", requestContent);
 
-      System.Diagnostics.Debug.WriteLine(response.Content);
+      Log.WriteLine(response.Content);
 
       using (var reader = new StreamReader(await response.Content.ReadAsStreamAsync()))
       {
         var output = await reader.ReadToEndAsync();
         // Write the output.
-        System.Diagnostics.Debug.WriteLine(output);
+        Log.WriteLine(output);
       }
 
       //OnTemporaryTokenRetrieved(code);

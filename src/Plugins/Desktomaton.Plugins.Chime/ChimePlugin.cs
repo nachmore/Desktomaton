@@ -1,4 +1,5 @@
-﻿using Desktomaton.PluginBase;
+﻿using Desktomaton.Logger;
+using Desktomaton.PluginBase;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -111,7 +112,7 @@ namespace Desktomaton.Plugins.Chime
         // this will also be the thread that will have the meeting windows
         if (windowTitle.Contains("Amazon Chime"))
         {
-          Debug.WriteLine($"*** Main Thread found: {threadId}");
+          Log.WriteLine($"*** Main Thread found: {threadId}");
           _chimeMainThreadId = threadId;
         }
 
@@ -120,7 +121,7 @@ namespace Desktomaton.Plugins.Chime
         if (!_titlesToIgnore.Any(s => windowTitle.Contains(s)))
         {
           _windows[threadId].Add(windowTitle);
-          Debug.WriteLine($"*** {threadId} title: {windowTitle}");
+          Log.WriteLine($"*** {threadId} title: {windowTitle}");
         }
       }
 

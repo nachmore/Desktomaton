@@ -9,12 +9,13 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <TargetFramework>net6.0-windows</TargetFramework>
+        <TargetFramework>net8.0-windows7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\..\Desktomaton.Logger\Desktomaton.Logger.csproj" />
         <ProjectReference Include="..\..\Desktomaton.PluginBase\Desktomaton.PluginBase.csproj" />
     </ItemGroup>
 
