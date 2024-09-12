@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Desktomaton.Logger;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Desktomaton.RulesManagement
@@ -17,6 +18,8 @@ namespace Desktomaton.RulesManagement
 
       foreach (var group in ruleGroups)
       {
+        Log.WriteLine($"Evaluating {group}");
+
         if (await group.EvaluateAsync())
           rv++;
       }

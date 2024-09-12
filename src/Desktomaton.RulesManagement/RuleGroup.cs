@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Desktomaton.Logger;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
@@ -43,14 +44,20 @@ namespace Desktomaton.RulesManagement
               throw new InvalidOperationException("DEBUG Only: Rule has no actions and no triggers");
             }
 
+            Log.WriteLine($"❌ Ignoring {rule.Name} as it has no actions and no triggers");
+
             // ignore this rule
             continue;
           }
+
+
+          Log.WriteLine($"▶️ Evaluating {rule.Name}");
 
           // stop as soon as one is successful
           // TODO: AND / OR for group (not just rule), though perhaps that's just another group?
           if (await rule.EvaluateAsync())
           {
+            Log.WriteLine($"  ✅ Rule successful");
             return true;
           }
 

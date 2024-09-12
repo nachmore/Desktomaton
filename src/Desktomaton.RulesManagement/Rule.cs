@@ -47,6 +47,16 @@ namespace Desktomaton.RulesManagement
     /// </summary>
     public RuleTypes RuleType { get; set; } = RuleTypes.AND;
 
+    /// <summary>
+    /// User friendly name for this rule
+    /// </summary>
+    public string Name { get; private set; }
+
+    public Rule(string name)
+    {
+      Name = name;
+    }
+
     public async Task<bool> EvaluateAsync()
     {
       var rv = false;
