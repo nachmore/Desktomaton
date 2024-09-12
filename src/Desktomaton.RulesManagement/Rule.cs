@@ -118,6 +118,7 @@ namespace Desktomaton.RulesManagement
       {
         try
         {
+          Log.WriteLine($"▶️ Running {action.Name}");
           await action.RunAsync(SuggestedExpiry, SuggestedStatus);
         }
         catch (Exception e)

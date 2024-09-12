@@ -11,6 +11,7 @@ using ToolStripSeparator = System.Windows.Forms.ToolStripSeparator;
 using System.Diagnostics;
 using System.Media;
 using Desktomaton.Logger;
+using System.Threading;
 
 namespace Desktomaton
 {
@@ -19,6 +20,8 @@ namespace Desktomaton
   /// </summary>
   public partial class App : PrismApplication
   {
+    private Mutex _singleInstanceMutex;
+
     public MainWindow AppWindow { get; private set; }
 
     protected override Window CreateShell()
@@ -28,11 +31,31 @@ namespace Desktomaton
 
     protected override void OnStartup(StartupEventArgs e)
     {
+      if (!EnsureSingleInstance())
+        return;
+
       InitTrayIcon();
 
       PrivateRuleRunner.Instance.Start();
 
       base.OnStartup(e);
+    }
+
+    private bool EnsureSingleInstance()
+    {
+      var mutexCreated = false;
+
+      // not setting into a global context in case multiple users want to run desktomaton
+      _singleInstanceMutex = new Mutex(true, "DesktomatonSingleInstance", out mutexCreated);
+
+      if (!mutexCreated)
+      {
+        Shutdown();
+
+        return false;
+      }
+
+      return true;
     }
 
     private void InitTrayIcon()

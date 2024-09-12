@@ -108,6 +108,7 @@ namespace Desktomaton.Plugins.Slack
 
       try
       {
+        Log.WriteLine($"Slack: setting Status to: {emoji} {text} (Expiration: {profile_parameters.status_expiration})");
         var response = await SlackAPIRequestAsync<ProfileSetResponse>(slackClient, profile);
 
         if (!response.ok)
