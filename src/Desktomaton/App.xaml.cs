@@ -69,7 +69,18 @@ namespace Desktomaton
         AppWindow = Container.Resolve<MainWindow>();
       }
 
-      AppWindow.Show();
+      try
+      {
+        AppWindow.Show();
+      }
+      catch (ArgumentException ex)
+      {
+        // this happens when you click on the icon super fast, there is some kind of 
+        // race condition in the framework that is triggered. Validated by locking this
+        // function and seeing it still repro (and SO reports etc).
+        // Since this only happens when the dialog is already open, just ignore the exception.
+        Debug.WriteLine(ex);
+      }
     }
 
     private void TrayMenuRefresh_Click(object sender, EventArgs e)
