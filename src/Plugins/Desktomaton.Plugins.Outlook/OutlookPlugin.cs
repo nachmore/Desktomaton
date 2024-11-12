@@ -85,7 +85,6 @@ namespace Desktomaton.Plugins.Outlook
         // to be set on the subject
         var aptSubject = appointment.Subject;
 
-
         if (Subject != null)
         {
           foreach (var subject in Subject)
@@ -96,10 +95,6 @@ namespace Desktomaton.Plugins.Outlook
             }
           }
         }
-
-        Log.WriteLine(appointment.AllDayEvent);
-        Log.WriteLine(appointment.Duration);
-        Log.WriteLine(appointment.Subject);
 
         if (BusyStatus != null && appointment.BusyStatus == BusyStatus)
           count++;

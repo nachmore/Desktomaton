@@ -6,7 +6,7 @@ namespace Desktomaton.Logger
   public class Log
   {
 
-    private const int LOG_SIZE = 100000;
+    private const int LOG_SIZE = 50000;
 
     public static event EventHandler? NewLogs;
 
