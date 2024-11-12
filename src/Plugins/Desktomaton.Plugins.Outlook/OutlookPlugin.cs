@@ -43,10 +43,14 @@ namespace Desktomaton.Plugins.Outlook
     [DesktomatonProperty]
     public string Category { get; set; }
 
+    // doesn't count to trigger as anything that matches here will decrease the 
+    // count (i.e. it's a negative match, not a positive one)
     [DesktomatonProperty(CountsTowardsTrigger = false)]
     public string NotCategory { get; set; }
 
-    public bool Test { get; set; }
+    // negative properties don't count towards the trigger (they decrease the count)
+    [DesktomatonProperty(PrettyTitle = "Ignore All Day Meetings", CountsTowardsTrigger = false)]
+    public bool IgnoreAllDayMeetings { get; set; }
 
     private static string mailboxUserName { get; set; }
 
@@ -93,8 +97,15 @@ namespace Desktomaton.Plugins.Outlook
           }
         }
 
+        Log.WriteLine(appointment.AllDayEvent);
+        Log.WriteLine(appointment.Duration);
+        Log.WriteLine(appointment.Subject);
+
         if (BusyStatus != null && appointment.BusyStatus == BusyStatus)
           count++;
+
+        if (IgnoreAllDayMeetings && appointment.AllDayEvent)
+          count--;
 
         if (Category != null && appointment.Categories != null && appointment.Categories.Contains(Category))
           count++;
@@ -228,13 +239,13 @@ namespace Desktomaton.Plugins.Outlook
       // issue, even if the code is a little more weird.
 
       // find all meetings that start within the period (regardless of when they end specifically)
-      var filter = $"[Start] >= '{start.ToString("g")}' AND [Start] <= '{end.ToString("g")}'";
+      var filter = $"[Start] >= '{start:g}' AND [Start] <= '{end:g}'";
 
       var rv = RestrictItems(folder, filter, includeRecurrences);
 
       // find meetings that are in-progress during the period (for example, all day events that start before the period but end
       // during or after it
-      filter = $"[Start] < '{start.ToString("g")}' AND [End] >= '{start.ToString("g")}'";
+      filter = $"[Start] < '{start:g}' AND [End] >= '{start:g}'";
 
       rv.AddRange(RestrictItems(folder, filter, includeRecurrences));
 

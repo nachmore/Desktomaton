@@ -33,7 +33,11 @@ namespace Desktomaton.PluginBase
     /// <returns></returns>
     public int GetSetPropertyCount()
     {
-      return Properties.Where(p => p.GetValue(this) != null && p.GetCustomAttribute<DesktomatonPropertyAttribute>()?.CountsTowardsTrigger == true).Count();
+      return Properties.Where(
+          p => p.GetValue(this) != null
+            &&
+          p.GetCustomAttribute<DesktomatonPropertyAttribute>()?.CountsTowardsTrigger == true
+        ).Count();
     }
 
     /// <summary>
