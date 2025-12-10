@@ -56,9 +56,19 @@ namespace Desktomaton.Plugins.Slack
         {
           browser.CoreWebView2.WebResourceRequested -= CoreWebView2_WebResourceRequested;
 
-          // tokens are 111 spaces:
-          // xoxc-1234567890987-1234567890123-1234567890123-1234567890987654321234567890987654321234567890987654321234567890
-          _token = content.Substring(content.IndexOf("xoxc"), 111);
+          // tokens used to be 111 spaces, and now seem to be 112 spaces:
+          // xoxc-1234567890987-1234567890123-1234567890123-12345678909876543212345678909876543212345678909876543212345678903
+
+          // instead of hardcoding a length, look for the end of the line and grab that.
+          var tokenStart = content.IndexOf("xoxc");
+          var lineEnd = content.IndexOf("\r\n", tokenStart);
+
+          if (lineEnd == -1)
+          {
+            lineEnd = content.Length;
+          }
+
+          _token = content.Substring(tokenStart, lineEnd - tokenStart).Trim();
 
           var cookies = await browser.CoreWebView2.CookieManager.GetCookiesAsync("");
 
