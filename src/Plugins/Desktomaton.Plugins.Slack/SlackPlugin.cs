@@ -113,7 +113,7 @@ namespace Desktomaton.Plugins.Slack
 
         if (!response.ok)
         {
-          Log.WriteLine($"** Slack Request Failed: {response.error}\n\tProfile is: {profile_parameters}");
+          Log.WriteLine($"** Slack Request Failed (setStatus): {response.error}\n\tProfile is: {profile_parameters}");
         }
       } 
       catch (NullReferenceException)
@@ -139,7 +139,7 @@ namespace Desktomaton.Plugins.Slack
 
       if (!response.ok)
       {
-        Log.WriteLine($"** Slack Request Failed: {response.error}\n\tExpiration is: {expiration}");
+        Log.WriteLine($"** Slack Request Failed (setDnd): {response.error}\n\tExpiration is: {expiration}");
       }
     }
 
